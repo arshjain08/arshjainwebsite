@@ -1,0 +1,50 @@
+{
+  "name": "Arsh Jain",
+  "title": "Computer Science Student",
+  "location": "New York City, NY",
+  "intro": "Welcome to my corner of the internet! I'm a senior at Rice University passionate about solving the world's hardest problems.",
+  "bio": "I'm currently a senior at Rice University studying Computer Science, Operations Research, and Economics. Previously, I was a Software Engineering Intern at Coinbase and SLB. If you want to dive deep into my career history, go to my LinkedIn. Here is where you can learn about me, my interests, what I've built, and what I am building :D  In my free time, I love playing board games with my friends, traveling to places I haven't been before, trying out new food, and skiing! ",
+  "photos": [
+    "/images/arsh-1.JPG",
+    "/images/arsh-2.JPG",
+    "/images/arsh-3.JPG",
+    "/images/arsh-4.JPG"
+  ],
+  "experiences": [
+    {
+      "title": "ML Engineer Intern",
+      "company": "Coinbase",
+      "duration": "Summer 2025",
+      "description": "Built incremental model retraining systems for account takeover detection models",
+      "type": "work"
+    },
+    {
+      "title": "Software Engineering Intern",
+      "company": "SLB",
+      "duration": "Summer 2024",
+      "description": "Anomaly detection in oil rig logs, and AI Agent automaly resolution",
+      "type": "work"
+    },
+    {
+      "title": "Research Assistant",
+      "company": "Rice University",
+      "duration": "2024-2025",
+      "description": "Building AI Agents to aid sociologists",
+      "type": "research"
+    }
+  ],
+  "interests": [
+    "Machine Learning",
+    "Behavioral Economics",
+    "Optimization",
+    "Music Production",
+    "Photography",
+    "Cooking"
+  ],
+  "funFacts": [
+    "I can solve a Rubik's cube in under 2 minutes",
+    "I've traveled to 25 countries",
+    "I really into mechanical keyboards",
+    "I am pretty good at Alto Sax and Oboe (jazz is awesome)"
+  ]
+}

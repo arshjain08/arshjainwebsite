@@ -1,0 +1,87 @@
+{
+  "projects": [
+    {
+      "id": "wattsonai",
+      "title": "WattsonAI",
+      "description": "An enterprise AI assistant for optimizing Bitcoin mining operations, built for the MARA hackathon. WattsonAI analyzes real-time energy and hash prices to provide intelligent recommendations for resource allocation between mining, inference, and battery storage. Features a sleek dark-themed interface with voice commands, natural language processing, and AI-powered insights that help maximize profit per watt. Recognized by MARA for its seamless user experience and balance of utility and usability.",
+      "tech": ["React", "Node.js", "Tailwind CSS", "Claude AI", "Web Speech API", "Recharts", "Express"],
+      "category": "machine-learning",
+      "status": "completed",
+      "featured": true,
+      "github": "https://github.com/cdermott7/WattsonAI",
+      "demo": "https://wattson-ai.vercel.app/",
+      "slides": "https://www.youtube.com/watch?v=XDzWh5-onb0&ab_channel=WilliamW.",
+      "image": "/images/blog/mara.jpg"
+    },
+    {
+      "id": "ricedatathon2024",
+      "title": "Predicting Peak Oil Production Rates For Chevron",
+      "description": "In the 2024 Chevron Rice Datathon, my team and I tackled the challenge of predicting peak oil production rates. We developed a sophisticated Artificial Neural Network using TensorFlow and Keras, focusing on minimizing the Root Mean Squared Error (RMSE). Our approach included meticulous data preprocessing and feature normalization to prepare the dataset, KerasTuner for hyperparameter tuning to optimize the model's performance, and key techniques like dropout regularization and early stopping to enhance accuracy and prevent overfitting.",
+      "tech": ["Python", "MatplotLib", "Pandas", "Statistical Modeling", "TensorFlow", "Keras", "Machine Learning", "scikit-learn"],
+      "category": "machine-learning",
+      "status": "completed",
+      "featured": true,
+      "github": "https://github.com/arshjain08/datathon24",
+      "slides": "https://docs.google.com/presentation/d/1efWhq3vpAKx91DBNyV13LIc2VQBLVpgbrHWN8GukkT8/edit?usp=sharing",
+      "image": "/images/projects/ricedatathon2024.png"
+    },
+    {
+      "id": "greenwings",
+      "title": "Greenwings",
+      "description": "Greenwings, developed for HackRice 13, offers users flight routes optimized for carbon or time efficiency. Our team of three utilized a modified version of Dijkstra's algorithm to create carbon-minimized routes using Flight Data from Flight Aware. The project focused on developing an application to optimize flight routes with environmental sustainability in mind, integrating real-time flight data with a customized Dijkstra's algorithm for carbon-efficient routing, and creating interactive visual representations of flight routes and pathfinding algorithms for an enhanced user experience.",
+      "tech": ["Python", "JavaScript", "HTML", "Beautiful Soup"],
+      "category": "algorithms",
+      "status": "completed",
+      "featured": true,
+      "github": "https://github.com/arshjain08/Greenwings",
+      "demo": "https://arushadabala.github.io/FlightRice13/",
+      "image": "/images/projects/hackrice13.jpeg"
+    },
+    {
+      "id": "chevron-renewable",
+      "title": "Chevron Renewable Energy Investment Strategy",
+      "description": "For the 2023 Chevron Rice Datathon, our team developed a model to predict 2020's renewable energy investments for each U.S. state, aiding Chevron in identifying potential collaboration opportunities. Our model focused on analyzing extensive datasets to forecast state-level renewable energy investment amounts, utilizing Linear, Lasso, and Ridge regression models to compare and optimize predictive accuracy as measured by the root mean squared error (RMSE), and implementing comprehensive data exploration and innovative modeling techniques to address the challenge of accurately predicting renewable investments.",
+      "tech": ["Python", "MatplotLib", "Pandas", "Statistical Modeling", "Machine Learning"],
+      "category": "machine-learning",
+      "status": "completed",
+      "featured": true,
+      "github": "https://github.com/arshjain08/datathon2023",
+      "slides": "https://docs.google.com/presentation/d/1AgzwN2jBMJnybnn4ZDGswWH1fqBw1r7ouHKkrTu22tc/edit?usp=sharing",
+      "image": "/images/projects/ricedatathon.png"
+    },
+    {
+      "id": "flowbreak",
+      "title": "Flowbreak",
+      "description": "FlowBreak is a web-based productivity app I'm particularly proud of, blending HTML, CSS, and JavaScript with Sweetalert2 and Bootstrap for a visually appealing interface. Inspired by the Pomodoro Technique, this app offers a unique twist with customizable work and break times to suit various working styles, enhancing flexibility and focus. It features an innovative system that automatically closes distracting tabs after break periods, addressing common issues of digital distraction that became especially prevalent during remote learning in the COVID era. The app also includes a fun, gamified reward system where users earn 'gold' for productive work, which can be used to purchase custom backgrounds, keeping engagement high and enhancing the user experience. FlowBreak is more than a timer; it's a comprehensive solution to the challenges of staying productive in a digital world, helping users maintain focus and effectively manage their time.",
+      "tech": ["HTML", "CSS", "Javascript", "Bootstrap", "SweetAlert2"],
+      "category": "web-development",
+      "status": "completed",
+      "featured": true,
+      "github": "https://github.com/arshjain08/FlowBreak",
+      "demo": "https://arshjain08.github.io/FlowBreak/",
+      "image": "/images/projects/flowbreak.png"
+    }
+  ],
+  "categories": [
+    {
+      "id": "machine-learning",
+      "name": "Machine Learning",
+      "color": "#3B82F6"
+    },
+    {
+      "id": "algorithms",
+      "name": "Algorithms",
+      "color": "#10B981"
+    },
+    {
+      "id": "web-development",
+      "name": "Web Development",
+      "color": "#F59E0B"
+    },
+    {
+      "id": "data-science",
+      "name": "Data Science",
+      "color": "#8B5CF6"
+    }
+  ]
+}
