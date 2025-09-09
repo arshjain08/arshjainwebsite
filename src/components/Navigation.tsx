@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
@@ -12,18 +12,23 @@ interface NavigationProps {
 
 export default function Navigation({ className = '' }: NavigationProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [currentPath, setCurrentPath] = useState('');
   const pathname = usePathname();
 
+  useEffect(() => {
+    setCurrentPath(pathname);
+  }, [pathname]);
+
   const links = [
-    { href: '/about', label: 'About', color: 'amber-400' },
-    { href: '/projects', label: 'Projects', color: 'emerald-500' },
-    { href: '/blog', label: 'Blog', color: 'rose-400' },
-    { href: '/contact', label: 'Contact', color: 'blue-400' }
+    { href: '/about', label: 'About', colorClass: 'bg-amber-400' },
+    { href: '/projects', label: 'Projects', colorClass: 'bg-emerald-500' },
+    { href: '/blog', label: 'Blog', colorClass: 'bg-rose-400' },
+    { href: '/contact', label: 'Contact', colorClass: 'bg-blue-400' }
   ];
 
   const isActiveLink = (href: string) => {
-    if (href === '/') return pathname === '/';
-    return pathname.startsWith(href);
+    if (href === '/') return currentPath === '/';
+    return currentPath.startsWith(href);
   };
 
   return (
@@ -46,9 +51,11 @@ export default function Navigation({ className = '' }: NavigationProps) {
             >
               <span>{link.label}</span>
               <div 
-                className={`absolute -bottom-1 left-0 h-0.5 bg-${link.color} transition-all duration-300 ${
-                  isActiveLink(link.href) ? 'w-full' : 'w-0 group-hover:w-full'
-                }`} 
+                className={`absolute -bottom-1 left-0 h-0.5 ${link.colorClass} ${
+                  isActiveLink(link.href) 
+                    ? 'w-full' 
+                    : 'w-0 group-hover:w-full transition-all duration-300'
+                }`}
               />
             </Link>
           ))}

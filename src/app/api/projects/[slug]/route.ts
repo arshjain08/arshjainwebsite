@@ -6,7 +6,7 @@ import projectsData from '../../../../../data/projects.json';
 
 export async function GET(request: Request, { params }: any) {
   try {
-    const slug = params.slug;
+    const { slug } = await params;
     const mdPath = path.join(process.cwd(), 'content', 'projects', `${slug}.md`);
 
     if (fs.existsSync(mdPath)) {

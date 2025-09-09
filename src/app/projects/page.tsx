@@ -5,6 +5,7 @@ import { ExternalLink, Github, Filter, Star, FileText } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import projectsData from '../../../data/projects.json';
+import Navigation from '@/components/Navigation';
 
 export default function Projects() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -23,32 +24,7 @@ export default function Projects() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(120,119,198,0.1)_1px,transparent_0)] bg-[length:20px_20px]" />
       </div>
       {/* Navigation */}
-      <nav className="p-4 sm:p-6">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <Link href="/" className="text-lg sm:text-xl font-bold text-stone-800 relative">
-            <span className="relative z-10">AJ</span>
-            <div className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-300/60 -z-10 -skew-x-12 highlight-permanent" />
-          </Link>
-          <div className="hidden sm:flex space-x-6 md:space-x-8">
-            <Link href="/about" className="text-stone-700 hover:text-stone-900 transition-colors relative group">
-              <span>About</span>
-              <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all duration-300 group-hover:w-full" />
-            </Link>
-            <Link href="/projects" className="text-stone-900 font-medium relative">
-              <span>Projects</span>
-              <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-emerald-500" />
-            </Link>
-            <Link href="/blog" className="text-stone-700 hover:text-stone-900 transition-colors relative group">
-              <span>Blog</span>
-              <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-rose-400 transition-all duration-300 group-hover:w-full" />
-            </Link>
-            <Link href="/contact" className="text-stone-700 hover:text-stone-900 transition-colors relative group">
-              <span>Contact</span>
-              <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-400 transition-all duration-300 group-hover:w-full" />
-            </Link>
-          </div>
-        </div>
-      </nav>
+      <Navigation className="p-4 sm:p-6" />
 
       {/* Main content */}
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
@@ -63,8 +39,42 @@ export default function Projects() {
             My{' '}
             <span className="relative inline-block">
               <span className="relative z-10">Projects</span>
-              <div className="absolute -bottom-2 left-0 w-full h-4 bg-emerald-300/60 -rotate-1 -z-10 highlight-permanent" />
-              <div className="absolute -bottom-1 left-1 w-full h-3 bg-amber-400/40 rotate-1 -z-10 highlight-permanent" />
+              <div 
+                className="absolute -bottom-2 left-0 w-full h-4 bg-emerald-300/60 -rotate-1 -z-10 highlight-permanent" 
+                style={{ 
+                  animation: 'none !important', 
+                  transition: 'none !important', 
+                  opacity: 1, 
+                  visibility: 'visible',
+                  display: 'block',
+                  position: 'absolute',
+                  bottom: '-0.5rem',
+                  left: 0,
+                  width: '100%',
+                  height: '1rem',
+                  backgroundColor: 'rgba(110, 231, 183, 0.6)',
+                  transform: 'rotate(-1deg)',
+                  zIndex: -10
+                }} 
+              />
+              <div 
+                className="absolute -bottom-1 left-1 w-full h-3 bg-amber-400/40 rotate-1 -z-10 highlight-permanent" 
+                style={{ 
+                  animation: 'none !important', 
+                  transition: 'none !important', 
+                  opacity: 1, 
+                  visibility: 'visible',
+                  display: 'block',
+                  position: 'absolute',
+                  bottom: '-0.25rem',
+                  left: '0.25rem',
+                  width: '100%',
+                  height: '0.75rem',
+                  backgroundColor: 'rgba(251, 191, 36, 0.4)',
+                  transform: 'rotate(1deg)',
+                  zIndex: -10
+                }} 
+              />
             </span>
           </motion.h1>
           
@@ -78,12 +88,7 @@ export default function Projects() {
         </div>
 
         {/* Filters */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-wrap gap-4 justify-center mb-12"
-        >
+        <div className="flex flex-wrap gap-4 justify-center mb-12 relative z-10">
           <div className="flex items-center gap-2 bg-stone-800 rounded-none px-4 py-2 shadow-md border-2 border-amber-400">
             <Filter className="w-4 h-4 text-stone-50" />
             <span className="text-sm font-medium text-stone-50 font-mono">Filter:</span>
@@ -91,11 +96,13 @@ export default function Projects() {
           
           <button
             onClick={() => setSelectedCategory('all')}
-            className={`px-4 py-2 rounded-none text-sm font-medium transition-all transform hover:scale-105 ${
+            className={`px-4 py-2 rounded-none text-sm font-medium transition-all transform hover:scale-105 cursor-pointer ${
               selectedCategory === 'all'
                 ? 'bg-stone-800 text-stone-50 shadow-lg border-2 border-amber-400'
                 : 'bg-stone-200 text-stone-800 hover:bg-stone-300 border-2 border-stone-300'
             }`}
+            type="button"
+            style={{ position: 'relative', zIndex: 100, pointerEvents: 'auto' }}
           >
             All Projects
           </button>
@@ -104,14 +111,18 @@ export default function Projects() {
             <button
               key={category.id}
               onClick={() => setSelectedCategory(category.id)}
-              className={`px-4 py-2 rounded-none text-sm font-medium transition-all transform hover:scale-105 border-2 ${
+              className={`px-4 py-2 rounded-none text-sm font-medium transition-all transform hover:scale-105 border-2 cursor-pointer ${
                 selectedCategory === category.id
                   ? 'bg-stone-800 text-stone-50 shadow-lg'
                   : 'bg-stone-200 text-stone-800 hover:bg-stone-300 border-stone-300'
               }`}
               style={{
                 borderColor: selectedCategory === category.id ? category.color : undefined,
+                position: 'relative',
+                zIndex: 100,
+                pointerEvents: 'auto'
               }}
+              type="button"
             >
               {category.name}
             </button>
@@ -119,16 +130,18 @@ export default function Projects() {
           
           <button
             onClick={() => setShowFeaturedOnly(!showFeaturedOnly)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-none text-sm font-medium transition-all transform hover:scale-105 border-2 ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-none text-sm font-medium transition-all transform hover:scale-105 border-2 cursor-pointer ${
               showFeaturedOnly
                 ? 'bg-amber-400 text-stone-900 shadow-lg border-amber-600'
                 : 'bg-stone-200 text-stone-800 hover:bg-amber-100 border-stone-300'
             }`}
+            type="button"
+            style={{ position: 'relative', zIndex: 100, pointerEvents: 'auto' }}
           >
             <Star className="w-4 h-4" />
             Featured Only
           </button>
-        </motion.div>
+        </div>
 
         {/* Projects grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">

@@ -9,32 +9,18 @@ import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-interface Project {
-  id: string;
-  title: string;
-  description: string;
-  tech: string[];
-  category: string;
-  status: string;
-  featured: boolean;
-  github?: string;
-  demo?: string;
-  slides?: string;
-  image?: string;
-}
-
-export default function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
+export default function ProjectPage({ params }: any) {
   const router = useRouter();
-  const [resolvedParams, setResolvedParams] = useState<{ slug: string } | null>(null);
-  const [project, setProject] = useState<Project | null>(null);
+  const [resolvedParams, setResolvedParams] = useState<any>(null);
+  const [project, setProject] = useState<any>(null);
   const [markdown, setMarkdown] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
-
+  
   useEffect(() => {
     async function resolveParams() {
       const resolved = await params;
       setResolvedParams(resolved);
-      const foundProject = projectsData.projects.find(p => p.id === resolved.slug) as Project;
+      const foundProject = projectsData.projects.find(p => p.id === resolved.slug);
       setProject(foundProject);
     }
     resolveParams();
@@ -70,6 +56,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
     return () => { isMounted = false; };
   }, [resolvedParams?.slug, project]);
   
+  
   if (!resolvedParams || !project) {
     return (
       <div className="min-h-screen bg-stone-50 flex items-center justify-center">
@@ -78,7 +65,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
     );
   }
   
-  const category = projectsData.categories.find(c => c.id === project.category);
+  const category = projectsData.categories.find(c => c.id === project?.category);
 
   return (
     <div className="min-h-screen bg-stone-50 relative">
@@ -95,25 +82,21 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
             <div className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-300/60 -z-10 -skew-x-12 highlight-permanent" />
           </Link>
           
-          <Link 
-            href="/projects"
-            className="flex items-center gap-2 text-stone-700 hover:text-stone-900 transition-colors relative z-10 cursor-pointer bg-transparent border-none no-underline"
+          <button 
+            onClick={() => router.push('/projects')}
+            className="flex items-center gap-2 text-stone-700 hover:text-stone-900 transition-colors relative z-10 cursor-pointer bg-transparent border-none"
+            type="button"
           >
             <ArrowLeft className="w-4 h-4" />
             <span className="text-sm sm:text-base">Back to Projects</span>
-          </Link>
+          </button>
         </div>
       </nav>
 
       {/* Main content */}
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         {/* Project header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-8 sm:mb-12"
-        >
+        <div className="mb-8 sm:mb-12">
           <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
             <span
               className="px-3 py-1 rounded-full text-xs sm:text-sm font-medium text-white"
@@ -145,25 +128,12 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
           </h1>
           
           <p className="text-lg sm:text-xl text-stone-700 leading-relaxed mb-6 sm:mb-8">
-            {/* Custom TLDR for each project */}
-            {project.id === 'wattsonai' && 
-              "Built an AI assistant for Bitcoin mining optimization at the MARA hackathon. Uses real-time data to recommend resource allocation between mining, inference, and battery storage. Features voice commands and natural language processing."
-            }
-            {project.id === 'ricedatathon2024' && 
-              "Developed a neural network to predict peak oil production rates for Chevron. Used TensorFlow/Keras with hyperparameter tuning and achieved high accuracy through feature engineering and regularization techniques."
-            }
-            {project.id === 'greenwings' && 
-              "Created a flight route optimizer for HackRice 13 that finds carbon-efficient paths using a modified Dijkstra's algorithm. Integrates real-time flight data for environmentally conscious travel planning."
-            }
-            {/* Add more project-specific TLDRs as needed */}
-            {!['wattsonai', 'ricedatathon2024', 'greenwings'].includes(project.id) &&
-              "A comprehensive project showcasing technical skills and innovative problem-solving approaches."
-            }
+            {project.description}
           </p>
           
           {/* Tech stack */}
           <div className="flex flex-wrap gap-2 mb-6 sm:mb-8">
-            {project.tech.map((tech, index) => (
+            {project.tech.map((tech: string, index: number) => (
               <span
                 key={index}
                 className="bg-blue-50 text-blue-700 px-2 sm:px-3 py-1 rounded-lg text-xs sm:text-sm font-medium border border-blue-200"
@@ -174,54 +144,42 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
           </div>
           
           {/* Action buttons */}
-          <div className="flex flex-wrap gap-4 relative z-[9999]" style={{ position: 'relative', zIndex: 9999, pointerEvents: 'auto' }}>
+          <div className="flex flex-wrap gap-4">
             {project.github && (
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  window.open(project.github, '_blank', 'noopener,noreferrer');
-                }}
-                className="inline-flex items-center gap-2 bg-stone-900 text-stone-50 px-4 sm:px-6 py-2 sm:py-3 rounded-none hover:bg-stone-800 transition-all transform hover:scale-105 text-sm sm:text-base cursor-pointer border-none"
-                style={{ position: 'relative', zIndex: 10000, pointerEvents: 'auto' }}
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-stone-900 text-stone-50 px-4 sm:px-6 py-2 sm:py-3 rounded-none hover:bg-stone-800 transition-all transform hover:scale-105 text-sm sm:text-base cursor-pointer no-underline"
               >
                 <Github className="w-4 h-4" />
                 View Code
-              </button>
+              </a>
             )}
             {project.demo && (
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  window.open(project.demo, '_blank', 'noopener,noreferrer');
-                }}
-                className="inline-flex items-center gap-2 bg-amber-400 text-stone-900 px-4 sm:px-6 py-2 sm:py-3 rounded-none hover:bg-amber-300 transition-all transform hover:scale-105 text-sm sm:text-base font-medium cursor-pointer border-none"
-                style={{ position: 'relative', zIndex: 10000, pointerEvents: 'auto' }}
+              <a
+                href={project.demo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-amber-400 text-stone-900 px-4 sm:px-6 py-2 sm:py-3 rounded-none hover:bg-amber-300 transition-all transform hover:scale-105 text-sm sm:text-base font-medium cursor-pointer no-underline"
               >
                 <ExternalLink className="w-4 h-4" />
                 Live Demo
-              </button>
+              </a>
             )}
             {project.slides && (
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  window.open(project.slides, '_blank', 'noopener,noreferrer');
-                }}
-                className="inline-flex items-center gap-2 bg-blue-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-none hover:bg-blue-600 transition-all transform hover:scale-105 text-sm sm:text-base font-medium cursor-pointer border-none"
-                style={{ position: 'relative', zIndex: 10000, pointerEvents: 'auto' }}
+              <a
+                href={project.slides}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-blue-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-none hover:bg-blue-600 transition-all transform hover:scale-105 text-sm sm:text-base font-medium cursor-pointer no-underline"
               >
                 <FileText className="w-4 h-4" />
                 {project.slides.includes('youtube.com') ? 'Watch Video' : 'View Slides'}
-              </button>
+              </a>
             )}
           </div>
-        </motion.div>
+        </div>
 
         {/* Project image */}
         {project.image && (
@@ -242,12 +200,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
         )}
 
         {/* Project details */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8"
-        >
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
           {/* Main content */}
           <div className="lg:col-span-2">
             <div className="bg-white/80 backdrop-blur-sm rounded-none border-l-4 p-4 sm:p-6 md:p-8 shadow-lg"
@@ -256,12 +209,8 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
               {loading ? (
                 <div className="text-stone-500">Loading content…</div>
               ) : (
-                <ReactMarkdown 
-                  remarkPlugins={[remarkGfm]} 
-                  className="prose prose-lg sm:prose-xl max-w-none text-stone-700"
-                >
-                  {/* Remove duplicate title from markdown */}
-                  {markdown.replace(/^# .+\n\n?/m, '').trim()}
+                <ReactMarkdown remarkPlugins={[remarkGfm]} className="prose prose-lg sm:prose-xl max-w-none text-stone-700">
+                  {markdown}
                 </ReactMarkdown>
               )}
             </div>
@@ -269,6 +218,19 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
           
           {/* Sidebar */}
           <div className="space-y-6">
+            {/* Tech Stack */}
+            <div className="bg-stone-100 border-l-4 border-blue-400 p-4 sm:p-6 shadow-md">
+              <h3 className="text-lg font-bold text-stone-900 mb-4 font-mono">Tech Stack</h3>
+              <div className="space-y-2">
+                {project.tech.map((tech: string, index: number) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-blue-400 rounded-full" />
+                    <span className="text-sm text-stone-700">{tech}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
             {/* Project Info */}
             <div className="bg-stone-100 border-l-4 border-emerald-400 p-4 sm:p-6 shadow-md">
               <h3 className="text-lg font-bold text-stone-900 mb-4 font-mono">Project Info</h3>
@@ -294,18 +256,59 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                 )}
               </div>
             </div>
+            
+            {/* Links */}
+            <div className="bg-stone-100 border-l-4 border-amber-400 p-4 sm:p-6 shadow-md">
+              <h3 className="text-lg font-bold text-stone-900 mb-4 font-mono">Links</h3>
+              <div className="space-y-3">
+                {project.github && (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-stone-700 hover:text-blue-600 transition-colors cursor-pointer no-underline"
+                  >
+                    <Github className="w-4 h-4" />
+                    <span className="text-sm">Source Code</span>
+                  </a>
+                )}
+                {project.demo && (
+                  <a
+                    href={project.demo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-stone-700 hover:text-blue-600 transition-colors cursor-pointer no-underline"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    <span className="text-sm">Live Demo</span>
+                  </a>
+                )}
+                {project.slides && (
+                  <a
+                    href={project.slides}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-stone-700 hover:text-blue-600 transition-colors cursor-pointer no-underline"
+                  >
+                    <FileText className="w-4 h-4" />
+                    <span className="text-sm">{project.slides.includes('youtube.com') ? 'Demo Video' : 'Presentation'}</span>
+                  </a>
+                )}
+              </div>
+            </div>
           </div>
-        </motion.div>
+        </div>
 
-        {/* Navigation to other projects - FIXED CLICKABLE */}
-        <div className="mt-12 sm:mt-16 relative z-10">
+        {/* Navigation to other projects */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="mt-12 sm:mt-16"
+        >
           <div className="border-t border-stone-300 pt-8">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
-              <a 
-                href="/projects" 
-                className="group no-underline block cursor-pointer" 
-                style={{ textDecoration: 'none', position: 'relative', zIndex: 100, pointerEvents: 'auto' }}
-              >
+              <Link href="/projects" className="group">
                 <div className="bg-stone-100 border-l-4 border-amber-400 p-4 sm:p-6 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
                   <h3 className="font-bold text-stone-900 mb-2 group-hover:text-amber-600 transition-colors text-sm sm:text-base">
                     ← All Projects
@@ -314,13 +317,9 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                     View my complete portfolio
                   </p>
                 </div>
-              </a>
+              </Link>
               
-              <a 
-                href="/contact" 
-                className="group no-underline block cursor-pointer" 
-                style={{ textDecoration: 'none', position: 'relative', zIndex: 100, pointerEvents: 'auto' }}
-              >
+              <Link href="/contact" className="group">
                 <div className="bg-stone-100 border-l-4 border-emerald-400 p-4 sm:p-6 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
                   <h3 className="font-bold text-stone-900 mb-2 group-hover:text-emerald-600 transition-colors text-sm sm:text-base">
                     Interested? Let's Talk →
@@ -329,10 +328,10 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                     I'd love to discuss this project with you
                   </p>
                 </div>
-              </a>
+              </Link>
             </div>
           </div>
-        </div>
+        </motion.div>
       </main>
     </div>
   );

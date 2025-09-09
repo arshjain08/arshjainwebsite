@@ -5,6 +5,7 @@ import { Calendar, Clock, Filter } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useCallback } from 'react';
 import blogData from '../../../data/blog.json';
+import Navigation from '@/components/Navigation';
 
 export default function Blog() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -36,32 +37,7 @@ export default function Blog() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(120,119,198,0.1)_1px,transparent_0)] bg-[length:20px_20px]" />
       </div>
       {/* Navigation */}
-      <nav className="p-4 sm:p-6">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <Link href="/" className="text-lg sm:text-xl font-bold text-stone-800 relative">
-            <span className="relative z-10">AJ</span>
-            <div className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-300/60 -z-10 -skew-x-12 highlight-permanent" />
-          </Link>
-          <div className="hidden sm:flex space-x-6 md:space-x-8">
-            <Link href="/about" className="text-stone-700 hover:text-stone-900 transition-colors relative group">
-              <span>About</span>
-              <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all duration-300 group-hover:w-full" />
-            </Link>
-            <Link href="/projects" className="text-stone-700 hover:text-stone-900 transition-colors relative group">
-              <span>Projects</span>
-              <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-500 transition-all duration-300 group-hover:w-full" />
-            </Link>
-            <Link href="/blog" className="text-stone-900 font-medium relative">
-              <span>Blog</span>
-              <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-rose-400" />
-            </Link>
-            <Link href="/contact" className="text-stone-700 hover:text-stone-900 transition-colors relative group">
-              <span>Contact</span>
-              <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-400 transition-all duration-300 group-hover:w-full" />
-            </Link>
-          </div>
-        </div>
-      </nav>
+      <Navigation className="p-4 sm:p-6" />
 
       {/* Main content */}
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
@@ -76,8 +52,42 @@ export default function Blog() {
             My{' '}
             <span className="relative inline-block">
               <span className="relative z-10">Thoughts</span>
-              <div className="absolute -bottom-2 left-0 w-full h-4 bg-rose-300/60 -rotate-1 -z-10 highlight-permanent" />
-              <div className="absolute -bottom-1 left-1 w-full h-3 bg-purple-400/40 rotate-1 -z-10 highlight-permanent" />
+              <div 
+                className="absolute -bottom-2 left-0 w-full h-4 bg-rose-300/60 -rotate-1 -z-10 highlight-permanent" 
+                style={{ 
+                  animation: 'none !important', 
+                  transition: 'none !important', 
+                  opacity: 1, 
+                  visibility: 'visible',
+                  display: 'block',
+                  position: 'absolute',
+                  bottom: '-0.5rem',
+                  left: 0,
+                  width: '100%',
+                  height: '1rem',
+                  backgroundColor: 'rgba(252, 165, 165, 0.6)',
+                  transform: 'rotate(-1deg)',
+                  zIndex: -10
+                }} 
+              />
+              <div 
+                className="absolute -bottom-1 left-1 w-full h-3 bg-purple-400/40 rotate-1 -z-10 highlight-permanent" 
+                style={{ 
+                  animation: 'none !important', 
+                  transition: 'none !important', 
+                  opacity: 1, 
+                  visibility: 'visible',
+                  display: 'block',
+                  position: 'absolute',
+                  bottom: '-0.25rem',
+                  left: '0.25rem',
+                  width: '100%',
+                  height: '0.75rem',
+                  backgroundColor: 'rgba(196, 181, 253, 0.4)',
+                  transform: 'rotate(1deg)',
+                  zIndex: -10
+                }} 
+              />
             </span>
           </motion.h1>
           
@@ -206,30 +216,6 @@ export default function Blog() {
           </motion.div>
         )}
 
-        {/* Newsletter signup */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-16"
-        >
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white text-center">
-            <h2 className="text-2xl font-bold mb-4">Stay in the loop</h2>
-            <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
-              Get notified when I publish new posts about technology, life, and everything in between. No spam, just good vibes.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-3 rounded-full text-gray-900 focus:outline-none focus:ring-2 focus:ring-white/50"
-              />
-              <button className="bg-white text-blue-600 px-6 py-3 rounded-full font-medium hover:bg-blue-50 transition-colors">
-                Subscribe
-              </button>
-            </div>
-          </div>
-        </motion.div>
       </main>
     </div>
   );

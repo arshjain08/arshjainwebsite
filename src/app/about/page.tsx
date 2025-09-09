@@ -84,8 +84,42 @@ export default function About() {
             Hey there, I'm{' '}
             <span className="relative inline-block">
               <span className="relative z-10">Arsh</span>
-              <div className="absolute -bottom-2 left-0 w-full h-4 bg-rose-300/60 -rotate-1 -z-10 highlight-permanent" />
-              <div className="absolute -bottom-1 left-1 w-full h-3 bg-yellow-400/40 rotate-1 -z-10 highlight-permanent" />
+              <div 
+                className="absolute -bottom-2 left-0 w-full h-4 bg-rose-300/60 -rotate-1 -z-10 highlight-permanent" 
+                style={{ 
+                  animation: 'none !important', 
+                  transition: 'none !important', 
+                  opacity: 1, 
+                  visibility: 'visible',
+                  display: 'block',
+                  position: 'absolute',
+                  bottom: '-0.5rem',
+                  left: 0,
+                  width: '100%',
+                  height: '1rem',
+                  backgroundColor: 'rgba(252, 165, 165, 0.6)',
+                  transform: 'rotate(-1deg)',
+                  zIndex: -10
+                }} 
+              />
+              <div 
+                className="absolute -bottom-1 left-1 w-full h-3 bg-yellow-400/40 rotate-1 -z-10 highlight-permanent" 
+                style={{ 
+                  animation: 'none !important', 
+                  transition: 'none !important', 
+                  opacity: 1, 
+                  visibility: 'visible',
+                  display: 'block',
+                  position: 'absolute',
+                  bottom: '-0.25rem',
+                  left: '0.25rem',
+                  width: '100%',
+                  height: '0.75rem',
+                  backgroundColor: 'rgba(251, 191, 36, 0.4)',
+                  transform: 'rotate(1deg)',
+                  zIndex: -10
+                }} 
+              />
             </span>
           </motion.h1>
           

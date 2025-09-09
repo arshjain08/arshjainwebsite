@@ -60,6 +60,18 @@ html {
 .highlight-permanent {
   animation: none !important;
   transition: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+  display: block !important;
+}
+
+/* Additional rule to override any parent motion animations */
+.highlight-permanent,
+.highlight-permanent * {
+  animation: none !important;
+  transition: none !important;
+  opacity: 1 !important;
 }
 
 /* Better responsive typography */

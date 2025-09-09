@@ -261,52 +261,6 @@ export default function Contact() {
           </motion.div>
         </div>
 
-        {/* FAQ Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-20"
-        >
-          <h2 className="text-3xl font-bold text-stone-900 mb-12 text-center relative">
-            <span className="relative z-10">Frequently Asked</span>
-            <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-32 h-3 bg-yellow-300/60 -rotate-1 -z-10 highlight-permanent" />
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-stone-100 border-l-4 border-amber-400 p-6 shadow-md">
-              <h3 className="text-lg font-bold text-stone-900 mb-3">What kind of projects do you work on?</h3>
-              <p className="text-stone-700 text-sm leading-relaxed">
-                I love working on ML/AI projects, fintech applications, and creative tech experiments. 
-                Always open to interesting challenges!
-              </p>
-            </div>
-
-            <div className="bg-stone-100 border-l-4 border-emerald-500 p-6 shadow-md">
-              <h3 className="text-lg font-bold text-stone-900 mb-3">Are you available for freelance work?</h3>
-              <p className="text-stone-700 text-sm leading-relaxed">
-                Currently focused on my role at Coinbase, but I'm always interested in discussing 
-                exciting opportunities and collaborations.
-              </p>
-            </div>
-
-            <div className="bg-stone-100 border-l-4 border-rose-400 p-6 shadow-md">
-              <h3 className="text-lg font-bold text-stone-900 mb-3">Can you mentor or give advice?</h3>
-              <p className="text-stone-700 text-sm leading-relaxed">
-                I'm happy to help fellow students and early-career developers. Feel free to reach out 
-                with specific questions!
-              </p>
-            </div>
-
-            <div className="bg-stone-100 border-l-4 border-blue-500 p-6 shadow-md">
-              <h3 className="text-lg font-bold text-stone-900 mb-3">Want to collaborate on research?</h3>
-              <p className="text-stone-700 text-sm leading-relaxed">
-                Absolutely! I'm particularly interested in behavioral economics, algorithmic trading, 
-                and AI applications in finance.
-              </p>
-            </div>
-          </div>
-        </motion.div>
       </main>
     </div>
   );
