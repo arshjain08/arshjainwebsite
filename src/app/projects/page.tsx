@@ -252,7 +252,15 @@ export default function Projects() {
                       onClick={(e) => e.stopPropagation()}
                     >
                       <FileText className="w-4 h-4" />
-                      <span className="text-sm">Slides</span>
+                      <span className="text-sm">
+                        {(project as any).slides.includes('youtube.com') 
+                          ? 'Video' 
+                          : (project as any).slides.includes('docs.google.com') 
+                            ? 'Slides'
+                            : (project as any).slides.includes('twitter.com') || (project as any).slides.includes('x.com')
+                              ? 'X Post'
+                              : 'Demo'}
+                      </span>
                     </a>
                   )}
                 </div>

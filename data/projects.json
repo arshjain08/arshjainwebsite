@@ -3,8 +3,8 @@
     {
       "id": "pricepal",
       "title": "PricePal", 
-      "description": "Never overpay again! PricePal transforms Mentra smart glasses into your personal shopping assistant. Built for the Mentra Hackathon, this AR application uses advanced computer vision and AI to instantly recognize products and compare prices across multiple retailers in real-time. Simply look at any product, ask 'Hey Mentra, is this a good price?' and get instant price comparisons through voice interaction. Our project gained significant social media traction and was recognized by Mentra's CEO and company leadership.",
-      "tech": ["Node.js", "TypeScript", "Google Gemini 2.5", "MentraOS SDK", "Roboflow", "ElevenLabs", "Bun", "Computer Vision"],
+      "description": "Never overpay again! PricePal transforms Mentra smart glasses into your personal shopping assistant, built for the Mentra Live Smart Glasses Hackathon at Y Combinator headquarters. This innovative AR application leverages advanced computer vision and AI to instantly recognize products and compare prices across multiple online retailers in real-time. Simply look at any product and ask 'Hey Mentra, is this a good price?' to receive immediate price comparisons through natural voice interaction. The system integrates Mentra's camera and microphone APIs with Google Gemini's grounded search capabilities and ElevenLabs voice generation to create a seamless shopping experience. Our project gained significant social media traction, was featured on Mentra's official social media channels, and earned recognition from both Mentra's CEO and company leadership for its practical utility and consumer appeal.",
+      "tech": ["Node.js", "TypeScript", "Google Gemini 2.5", "MentraOS SDK", "ElevenLabs", "Bun", "Computer Vision"],
       "category": "machine-learning",
       "status": "completed", 
       "featured": true,
@@ -91,11 +91,6 @@
       "id": "web-development",
       "name": "Web Development",
       "color": "#F59E0B"
-    },
-    {
-      "id": "data-science",
-      "name": "Data Science",
-      "color": "#8B5CF6"
     }
   ]
 }

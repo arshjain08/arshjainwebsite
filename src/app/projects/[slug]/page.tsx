@@ -206,7 +206,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                 style={{ position: 'relative', zIndex: 10000, pointerEvents: 'auto' }}
               >
                 <FileText className="w-4 h-4" />
-                {project.slides.includes('youtube.com') ? 'Watch Video' : 'View Slides'}
+                {project.slides.includes('youtube.com') ? 'Watch Video' : 'View Demo'}
               </button>
             )}
             {project.blog && (
