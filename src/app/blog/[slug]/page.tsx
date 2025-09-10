@@ -174,6 +174,7 @@ export default function BlogPost({ params }: any) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
           className="max-w-4xl mx-auto"
+          style={{ userSelect: 'text', WebkitUserSelect: 'text', pointerEvents: 'auto' }}
         >
           {loading ? (
             <div className="text-stone-500 text-center py-12">Loading content…</div>
@@ -181,6 +182,7 @@ export default function BlogPost({ params }: any) {
             <ReactMarkdown 
               remarkPlugins={[remarkGfm]} 
               className="text-stone-900"
+              style={{ userSelect: 'text', WebkitUserSelect: 'text' }}
                   components={{
                     // Custom heading styles
                     h1: ({ children }) => (
@@ -314,7 +316,11 @@ export default function BlogPost({ params }: any) {
         >
           <div className="border-t border-stone-300 pt-8">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
-              <Link href="/blog" className="group">
+              <a 
+                href="/blog" 
+                className="group no-underline block cursor-pointer" 
+                style={{ textDecoration: 'none', position: 'relative', zIndex: 100, pointerEvents: 'auto' }}
+              >
                 <div className="bg-stone-100 border-l-4 border-amber-400 p-4 sm:p-6 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
                   <h3 className="font-bold text-stone-900 mb-2 group-hover:text-amber-600 transition-colors text-sm sm:text-base">
                     ← All Blog Posts
@@ -323,9 +329,13 @@ export default function BlogPost({ params }: any) {
                     View all my thoughts and writings
                   </p>
                 </div>
-              </Link>
+              </a>
               
-              <Link href="/contact" className="group">
+              <a 
+                href="/contact" 
+                className="group no-underline block cursor-pointer" 
+                style={{ textDecoration: 'none', position: 'relative', zIndex: 100, pointerEvents: 'auto' }}
+              >
                 <div className="bg-stone-100 border-l-4 border-emerald-400 p-4 sm:p-6 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
                   <h3 className="font-bold text-stone-900 mb-2 group-hover:text-emerald-600 transition-colors text-sm sm:text-base">
                     Let's Connect →
@@ -334,7 +344,7 @@ export default function BlogPost({ params }: any) {
                     Have thoughts on this post? I'd love to hear them!
                   </p>
                 </div>
-              </Link>
+              </a>
             </div>
           </div>
         </motion.div>

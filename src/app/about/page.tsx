@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useRef } from 'react';
 import personalData from '../../../data/personal.json';
+import Navigation from '@/components/Navigation';
 
 export default function About() {
   const [ballPosition, setBallPosition] = useState({ x: 50, y: 50 });
@@ -44,32 +45,7 @@ export default function About() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(120,119,198,0.1)_1px,transparent_0)] bg-[length:20px_20px]" />
       </div>
       {/* Navigation */}
-      <nav className="p-6">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <Link href="/" className="text-xl font-bold text-stone-800 relative">
-            <span className="relative z-10">AJ</span>
-            <div className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-300/60 -z-10 -skew-x-12 highlight-permanent" />
-          </Link>
-          <div className="flex space-x-8">
-            <Link href="/about" className="text-stone-900 font-medium relative">
-              <span>About</span>
-              <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-amber-400" />
-            </Link>
-            <Link href="/projects" className="text-stone-700 hover:text-stone-900 transition-colors relative group">
-              <span>Projects</span>
-              <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-500 transition-all duration-300 group-hover:w-full" />
-            </Link>
-            <Link href="/blog" className="text-stone-700 hover:text-stone-900 transition-colors relative group">
-              <span>Blog</span>
-              <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-rose-400 transition-all duration-300 group-hover:w-full" />
-            </Link>
-            <Link href="/contact" className="text-stone-700 hover:text-stone-900 transition-colors relative group">
-              <span>Contact</span>
-              <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-400 transition-all duration-300 group-hover:w-full" />
-            </Link>
-          </div>
-        </div>
-      </nav>
+      <Navigation className="p-6" />
 
       {/* Main content */}
       <main className="max-w-6xl mx-auto px-6 py-12">
@@ -255,7 +231,7 @@ export default function About() {
           className="mb-16"
         >
           <h2 className="text-3xl font-bold text-stone-900 mb-8 text-center relative">
-            <span className="relative z-10">Recent Adventures</span>
+            <span className="relative z-10">Recent Stuff I've Done</span>
             <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-32 h-3 bg-yellow-300/60 -rotate-1 -z-10" />
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

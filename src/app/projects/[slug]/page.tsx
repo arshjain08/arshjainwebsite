@@ -1,13 +1,14 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowLeft, Github, ExternalLink, Star, FileText } from 'lucide-react';
+import { ArrowLeft, Github, ExternalLink, Star, FileText, BookOpen } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import projectsData from '../../../../data/projects.json';
 import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { getProjectTldr } from '@/utils/projectTldrs';
 
 interface Project {
   id: string;
@@ -20,6 +21,7 @@ interface Project {
   github?: string;
   demo?: string;
   slides?: string;
+  blog?: string;
   image?: string;
 }
 
@@ -145,20 +147,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
           </h1>
           
           <p className="text-lg sm:text-xl text-stone-700 leading-relaxed mb-6 sm:mb-8">
-            {/* Custom TLDR for each project */}
-            {project.id === 'wattsonai' && 
-              "Built an AI assistant for Bitcoin mining optimization at the MARA hackathon. Uses real-time data to recommend resource allocation between mining, inference, and battery storage. Features voice commands and natural language processing."
-            }
-            {project.id === 'ricedatathon2024' && 
-              "Developed a neural network to predict peak oil production rates for Chevron. Used TensorFlow/Keras with hyperparameter tuning and achieved high accuracy through feature engineering and regularization techniques."
-            }
-            {project.id === 'greenwings' && 
-              "Created a flight route optimizer for HackRice 13 that finds carbon-efficient paths using a modified Dijkstra's algorithm. Integrates real-time flight data for environmentally conscious travel planning."
-            }
-            {/* Add more project-specific TLDRs as needed */}
-            {!['wattsonai', 'ricedatathon2024', 'greenwings'].includes(project.id) &&
-              "A comprehensive project showcasing technical skills and innovative problem-solving approaches."
-            }
+            {getProjectTldr(project.id)}
           </p>
           
           {/* Tech stack */}
@@ -220,6 +209,21 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                 {project.slides.includes('youtube.com') ? 'Watch Video' : 'View Slides'}
               </button>
             )}
+            {project.blog && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  router.push(project.blog);
+                }}
+                className="inline-flex items-center gap-2 bg-green-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-none hover:bg-green-700 transition-all transform hover:scale-105 text-sm sm:text-base font-medium cursor-pointer border-none"
+                style={{ position: 'relative', zIndex: 10000, pointerEvents: 'auto' }}
+              >
+                <BookOpen className="w-4 h-4" />
+                Read Blog Post
+              </button>
+            )}
           </div>
         </motion.div>
 
@@ -258,7 +262,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
               ) : (
                 <ReactMarkdown 
                   remarkPlugins={[remarkGfm]} 
-                  className="prose prose-lg sm:prose-xl max-w-none text-stone-700"
+                  className="prose prose-lg sm:prose-lg max-w-none text-stone-700"
                 >
                   {/* Remove duplicate title from markdown */}
                   {markdown.replace(/^# .+\n\n?/m, '').trim()}

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import projectsData from '../../../data/projects.json';
 import Navigation from '@/components/Navigation';
+import { getProjectTldr } from '@/utils/projectTldrs';
 
 export default function Projects() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -177,7 +178,7 @@ export default function Projects() {
                   )}
                 </div>
                 
-                <p className="text-gray-600 mb-4 line-clamp-3 text-sm sm:text-base">{project.description}</p>
+                <p className="text-gray-600 mb-4 line-clamp-3 text-sm sm:text-base">{getProjectTldr(project.id)}</p>
                 
                 {/* Tech stack */}
                 <div className="flex flex-wrap gap-2 mb-4">

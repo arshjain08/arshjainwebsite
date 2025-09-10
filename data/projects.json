@@ -1,6 +1,19 @@
 {
   "projects": [
     {
+      "id": "pricepal",
+      "title": "PricePal", 
+      "description": "Never overpay again! PricePal transforms Mentra smart glasses into your personal shopping assistant. Built for the Mentra Hackathon, this AR application uses advanced computer vision and AI to instantly recognize products and compare prices across multiple retailers in real-time. Simply look at any product, ask 'Hey Mentra, is this a good price?' and get instant price comparisons through voice interaction. Our project gained significant social media traction and was recognized by Mentra's CEO and company leadership.",
+      "tech": ["Node.js", "TypeScript", "Google Gemini 2.5", "MentraOS SDK", "Roboflow", "ElevenLabs", "Bun", "Computer Vision"],
+      "category": "machine-learning",
+      "status": "completed", 
+      "featured": true,
+      "github": "https://github.com/cdermott7/PricePal",
+      "slides": "https://x.com/caydengineer/status/1949509327066472453",
+      "blog": "/blog/smart-glasses-mentra-hackathon",
+      "image": "/images/projects/pricepal.png"
+    },
+    {
       "id": "wattsonai",
       "title": "WattsonAI",
       "description": "An enterprise AI assistant for optimizing Bitcoin mining operations, built for the MARA hackathon. WattsonAI analyzes real-time energy and hash prices to provide intelligent recommendations for resource allocation between mining, inference, and battery storage. Features a sleek dark-themed interface with voice commands, natural language processing, and AI-powered insights that help maximize profit per watt. Recognized by MARA for its seamless user experience and balance of utility and usability.",
@@ -11,6 +24,7 @@
       "github": "https://github.com/cdermott7/WattsonAI",
       "demo": "https://wattson-ai.vercel.app/",
       "slides": "https://www.youtube.com/watch?v=XDzWh5-onb0&ab_channel=WilliamW.",
+      "blog": "/blog/bitcoin-ai-mara-hackathon",
       "image": "/images/blog/mara.jpg"
     },
     {
@@ -20,7 +34,7 @@
       "tech": ["Python", "MatplotLib", "Pandas", "Statistical Modeling", "TensorFlow", "Keras", "Machine Learning", "scikit-learn"],
       "category": "machine-learning",
       "status": "completed",
-      "featured": true,
+      "featured": false,
       "github": "https://github.com/arshjain08/datathon24",
       "slides": "https://docs.google.com/presentation/d/1efWhq3vpAKx91DBNyV13LIc2VQBLVpgbrHWN8GukkT8/edit?usp=sharing",
       "image": "/images/projects/ricedatathon2024.png"
@@ -32,7 +46,7 @@
       "tech": ["Python", "JavaScript", "HTML", "Beautiful Soup"],
       "category": "algorithms",
       "status": "completed",
-      "featured": true,
+      "featured": false,
       "github": "https://github.com/arshjain08/Greenwings",
       "demo": "https://arushadabala.github.io/FlightRice13/",
       "image": "/images/projects/hackrice13.jpeg"
@@ -44,7 +58,7 @@
       "tech": ["Python", "MatplotLib", "Pandas", "Statistical Modeling", "Machine Learning"],
       "category": "machine-learning",
       "status": "completed",
-      "featured": true,
+      "featured": false,
       "github": "https://github.com/arshjain08/datathon2023",
       "slides": "https://docs.google.com/presentation/d/1AgzwN2jBMJnybnn4ZDGswWH1fqBw1r7ouHKkrTu22tc/edit?usp=sharing",
       "image": "/images/projects/ricedatathon.png"
@@ -56,7 +70,7 @@
       "tech": ["HTML", "CSS", "Javascript", "Bootstrap", "SweetAlert2"],
       "category": "web-development",
       "status": "completed",
-      "featured": true,
+      "featured": false,
       "github": "https://github.com/arshjain08/FlowBreak",
       "demo": "https://arshjain08.github.io/FlowBreak/",
       "image": "/images/projects/flowbreak.png"

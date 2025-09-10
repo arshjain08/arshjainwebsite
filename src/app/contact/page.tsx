@@ -4,27 +4,11 @@ import { motion } from 'framer-motion';
 import { Mail, Github, Linkedin, Twitter, MapPin, Send } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
+import Navigation from '@/components/Navigation';
+import { useForm, ValidationError } from '@formspree/react';
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
-  };
+  const [state, handleSubmit] = useForm("xwpnyqvb");
 
   return (
     <div className="min-h-screen bg-stone-50 relative">
@@ -34,32 +18,7 @@ export default function Contact() {
       </div>
 
       {/* Navigation */}
-      <nav className="relative z-10 p-6">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <Link href="/" className="text-xl font-bold text-stone-800 relative">
-            <span className="relative z-10">AJ</span>
-            <div className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-300/60 -z-10 -skew-x-12 highlight-permanent" />
-          </Link>
-          <div className="flex space-x-8">
-            <Link href="/about" className="text-stone-700 hover:text-stone-900 transition-colors relative group">
-              <span>About</span>
-              <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 transition-all duration-300 group-hover:w-full" />
-            </Link>
-            <Link href="/projects" className="text-stone-700 hover:text-stone-900 transition-colors relative group">
-              <span>Projects</span>
-              <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-500 transition-all duration-300 group-hover:w-full" />
-            </Link>
-            <Link href="/blog" className="text-stone-700 hover:text-stone-900 transition-colors relative group">
-              <span>Blog</span>
-              <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-rose-400 transition-all duration-300 group-hover:w-full" />
-            </Link>
-            <Link href="/contact" className="text-stone-900 font-medium relative">
-              <span>Contact</span>
-              <div className="absolute -bottom-1 left-0 w-full h-0.5 bg-blue-400" />
-            </Link>
-          </div>
-        </div>
-      </nav>
+      <Navigation className="relative z-10 p-6" />
 
       {/* Main content */}
       <main className="relative z-10 max-w-6xl mx-auto px-6 py-12">
@@ -102,7 +61,14 @@ export default function Contact() {
               <div className="absolute -bottom-1 left-0 w-32 h-3 bg-amber-300/40 -rotate-1 -z-10 highlight-permanent" />
             </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            {state.succeeded ? (
+              <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
+                <div className="text-green-600 text-4xl mb-4">✓</div>
+                <h3 className="text-lg font-bold text-green-900 mb-2">Message Sent Successfully!</h3>
+                <p className="text-green-700">Thanks for reaching out! I'll get back to you soon.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-stone-700 mb-2">
@@ -112,11 +78,14 @@ export default function Contact() {
                     type="text"
                     id="name"
                     name="name"
-                    value={formData.name}
-                    onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-stone-100 border border-stone-300 rounded-none focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 bg-stone-100 border border-stone-300 rounded-none focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all text-stone-900 placeholder-stone-500"
                     placeholder="Your name"
+                  />
+                  <ValidationError 
+                    prefix="Name" 
+                    field="name"
+                    errors={state.errors}
                   />
                 </div>
                 <div>
@@ -127,11 +96,14 @@ export default function Contact() {
                     type="email"
                     id="email"
                     name="email"
-                    value={formData.email}
-                    onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-stone-100 border border-stone-300 rounded-none focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 bg-stone-100 border border-stone-300 rounded-none focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all text-stone-900 placeholder-stone-500"
                     placeholder="your.email@example.com"
+                  />
+                  <ValidationError 
+                    prefix="Email" 
+                    field="email"
+                    errors={state.errors}
                   />
                 </div>
               </div>
@@ -144,11 +116,14 @@ export default function Contact() {
                   type="text"
                   id="subject"
                   name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-stone-100 border border-stone-300 rounded-none focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all"
+                  className="w-full px-4 py-3 bg-stone-100 border border-stone-300 rounded-none focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all text-stone-900 placeholder-stone-500"
                   placeholder="What's this about?"
+                />
+                <ValidationError 
+                  prefix="Subject" 
+                  field="subject"
+                  errors={state.errors}
                 />
               </div>
 
@@ -159,23 +134,32 @@ export default function Contact() {
                 <textarea
                   id="message"
                   name="message"
-                  value={formData.message}
-                  onChange={handleChange}
                   required
                   rows={6}
-                  className="w-full px-4 py-3 bg-stone-100 border border-stone-300 rounded-none focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all resize-none"
+                  className="w-full px-4 py-3 bg-stone-100 border border-stone-300 rounded-none focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all resize-none text-stone-900 placeholder-stone-500"
                   placeholder="Tell me about your project, idea, or just say hello..."
+                />
+                <ValidationError 
+                  prefix="Message" 
+                  field="message"
+                  errors={state.errors}
                 />
               </div>
 
               <button
                 type="submit"
-                className="inline-flex items-center gap-2 bg-stone-900 text-stone-50 px-8 py-4 rounded-none hover:bg-stone-800 transition-colors transform hover:scale-105 font-medium"
+                disabled={state.submitting}
+                className={`inline-flex items-center gap-2 px-8 py-4 rounded-none transition-colors transform hover:scale-105 font-medium ${
+                  state.submitting 
+                    ? 'bg-stone-400 text-stone-200 cursor-not-allowed' 
+                    : 'bg-stone-900 text-stone-50 hover:bg-stone-800'
+                }`}
               >
                 <Send className="w-4 h-4" />
-                Send Message
+                {state.submitting ? 'Sending...' : 'Send Message'}
               </button>
             </form>
+            )}
           </motion.div>
 
           {/* Contact Info */}

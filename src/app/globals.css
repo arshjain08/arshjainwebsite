@@ -81,21 +81,9 @@ html {
   }
 }
 
-@media (min-width: 641px) and (max-width: 1024px) {
-  html {
-    font-size: 15px;
-  }
-}
-
-@media (min-width: 1025px) {
+@media (min-width: 641px) {
   html {
     font-size: 16px;
-  }
-}
-
-@media (min-width: 1440px) {
-  html {
-    font-size: 18px;
   }
 }
 
@@ -113,4 +101,12 @@ html {
     min-height: 44px;
     min-width: 44px;
   }
+}
+
+/* Ensure text selection works in blog posts */
+article, .prose, p, h1, h2, h3, h4, h5, h6, li, blockquote {
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
 }

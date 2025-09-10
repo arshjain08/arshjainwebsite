@@ -68,13 +68,13 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold text-stone-900 mb-10 relative"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-stone-900 mb-6 relative"
           >
             Hi, I'm{' '}
             <span className="relative inline-block">
               <span className="relative z-10">Arsh</span>
-              <div className="absolute -bottom-3 left-0 w-full h-6 bg-amber-300/60 -rotate-1 -z-10 highlight-permanent" />
-              <div className="absolute -bottom-2 left-1 w-full h-4 bg-emerald-400/40 rotate-1 -z-10 highlight-permanent" />
+              <div className="absolute -bottom-2 left-0 w-full h-4 bg-amber-300/60 -rotate-1 -z-10 highlight-permanent" />
+              <div className="absolute -bottom-1 left-1 w-full h-3 bg-emerald-400/40 rotate-1 -z-10 highlight-permanent" />
             </span>
           </motion.h1>
 
@@ -82,12 +82,12 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-stone-700 mb-12 max-w-5xl mx-auto leading-relaxed px-4"
+            className="text-lg sm:text-xl md:text-2xl text-stone-700 mb-8 max-w-3xl mx-auto leading-relaxed px-4"
           >
             Senior at{' '}
             <span className="font-semibold text-stone-900 relative">
               Rice University
-              <span className="absolute -bottom-1 left-0 w-full h-2 bg-blue-400/50 block" />
+              <span className="absolute -bottom-0.5 left-0 w-full h-1 bg-blue-400/50 block" />
             </span>{' '}passionate about solving world's hardest problems.
             <br />
             <span className="text-stone-600">Previous SWE Intern at Coinbase and SLB.</span>
