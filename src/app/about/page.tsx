@@ -167,7 +167,7 @@ export default function About() {
             </div>
             
             <p className="text-sm text-gray-500 mt-2 text-center">
-              Drag the little ball to the slope in the bottom right... 👀
+              Drag the little ball to the slope in the bottom right...
             </p>
           </motion.div>
 
@@ -298,17 +298,20 @@ export default function About() {
       {/* Game Modal */}
       {showGame && (
         <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl p-6 max-w-4xl w-full max-h-[90vh] overflow-hidden">
+          <div className="bg-white rounded-2xl p-6 max-w-6xl w-full max-h-[95vh] overflow-hidden">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-bold text-gray-900">You found the Easter egg! 🎉</h2>
               <button
-                onClick={() => setShowGame(false)}
+                onClick={() => {
+                  setShowGame(false);
+                  setBallPosition({ x: 50, y: 50 });
+                }}
                 className="text-gray-500 hover:text-gray-700 text-2xl"
               >
                 ×
               </button>
             </div>
-            <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
+            <div className="h-[70vh] bg-gray-100 rounded-lg overflow-hidden">
               <iframe
                 src="https://storage.y8.com/y8-studio/unity/joll/slope/?key=9757549&value=80527"
                 width="100%"
@@ -319,7 +322,7 @@ export default function About() {
               />
             </div>
             <p className="text-gray-600 mt-4 text-center">
-              Enjoy the game! Click the X to close when you're done.
+              Enjoy the game! In middle school, I would always play this game when I was bored in class, and this is a homage to that. <br></br> Huh, I guess this website is now a "slope unblocked" website 🤔
             </p>
           </div>
         </div>
