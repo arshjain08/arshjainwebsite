@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Clock, ArrowLeft } from 'lucide-react';
+import { Calendar, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
@@ -286,11 +286,6 @@ export default function BlogPost({ params }: any) {
             <div className="flex items-center gap-2 text-stone-600">
               <Calendar className="w-4 h-4" />
               <span>{ensuredPost.date}</span>
-            </div>
-            <span className="text-stone-500">•</span>
-            <div className="flex items-center gap-2 text-stone-600">
-              <Clock className="w-4 h-4" />
-              <span>{ensuredPost.readTime}</span>
             </div>
           </div>
 

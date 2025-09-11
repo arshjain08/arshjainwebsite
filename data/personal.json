@@ -3,7 +3,7 @@
   "title": "Computer Science Student",
   "location": "New York City, NY",
   "intro": "Welcome to my corner of the internet! I'm a senior at Rice University passionate about solving the world's hardest problems.",
-  "bio": "I'm currently a senior at Rice University studying Computer Science, Operations Research, and Economics. Previously, I was a Software Engineering Intern at Coinbase and SLB. If you want to dive deep into my career history, go to my LinkedIn. Here is where you can learn about me, my interests, what I've built, and what I am building :D  In my free time, I love playing board games with my friends, traveling to places I haven't been before, trying out new food, and playing/listening to music! ",
+  "bio": "I'm currently a senior at Rice University studying Computer Science, Operations Research, and Economics. Previously, I was a Software Engineering Intern at Coinbase and SLB. If you want to dive deep into my career history, go to my LinkedIn. Here is where you can learn about me, my interests, what I've built, and what I am building :D  ",
   "photos": [
     "/images/arsh-1.JPG",
     "/images/arsh-2.JPG",
@@ -42,9 +42,10 @@
     "Table Tennis"
   ],
   "funFacts": [
-    "I can solve a Rubik's cube in under 2 minutes",
+    "My favorite coding languages are Python and Go",
+    "I played Alto Sax and Oboe",
     "I've traveled to 25 countries",
-    "I really into mechanical keyboards",
-    "I am pretty good at Alto Sax and Oboe (jazz is awesome)"
+    "I'm really into mechanical keyboards (ask what my setup is!)",
+    "I did Brazilian Jiu Jitsu for 5 years"
   ]
 }

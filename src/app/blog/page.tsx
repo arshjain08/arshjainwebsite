@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Calendar, Clock, Filter } from 'lucide-react';
+import { Calendar, Filter } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useCallback } from 'react';
 import blogData from '../../../data/blog.json';
@@ -96,7 +96,7 @@ export default function Blog() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-lg sm:text-xl text-stone-700 max-w-3xl mx-auto leading-relaxed px-4 sm:px-0">
-            Random thoughts about technology, life, and everything in between. Sometimes technical, sometimes personal, always authentic.
+            Random thoughts about technology, life, and honestly anything that I find cool :)
           </motion.p>
         </div>
 
@@ -162,11 +162,6 @@ export default function Blog() {
                 <div className="flex items-center gap-2 text-gray-500 text-sm">
                   <Calendar className="w-4 h-4" />
                   {formatDate(post.date)}
-                </div>
-                
-                <div className="flex items-center gap-2 text-gray-500 text-sm">
-                  <Clock className="w-4 h-4" />
-                  {post.readTime}
                 </div>
               </div>
               
