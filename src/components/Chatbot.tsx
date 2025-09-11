@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, X, Send } from 'lucide-react';
+import { MessageCircle, X, Send, Maximize2, Minimize2, Brain, Sparkles } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 
 interface Message {
@@ -11,38 +11,26 @@ interface Message {
   timestamp: Date;
 }
 
-const complimentaryResponses = [
-  "Arsh is absolutely brilliant! His work in machine learning is truly impressive.",
-  "I have to say, Arsh's combination of technical skills and creative thinking is remarkable.",
-  "Arsh has such a unique perspective on technology and economics. Very insightful!",
-  "The way Arsh approaches problems is so thoughtful and innovative. Really admirable.",
-  "Arsh's projects are incredibly well-executed. You can tell he puts real passion into his work.",
-  "I'm constantly impressed by Arsh's ability to bridge technical complexity with practical applications.",
-  "Arsh has this wonderful way of making complex topics accessible and engaging.",
-  "The breadth of Arsh's knowledge across CS, Economics, and Operations Research is truly impressive.",
-  "Arsh's work at Coinbase must be fantastic - he brings such depth to everything he does.",
-  "I love how Arsh combines his technical expertise with creative projects like music generation!",
-  "Arsh seems like such a well-rounded person - technically brilliant but also creative and personable.",
-  "The easter egg on his website is such a fun touch! Shows his playful side.",
-  "Arsh's portfolio really showcases his versatility and skill. Very impressive work!",
-  "I appreciate how Arsh shares his learning journey - it's both humble and inspiring.",
-  "Arsh has excellent taste in both technology choices and design aesthetics!"
-];
-
-// Custom liquid glass hook
+// Enhanced liquid glass hook with more sophisticated effects
 const useLiquidGlass = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
     if (containerRef.current) {
       const element = containerRef.current;
-      element.style.backdropFilter = 'blur(20px) saturate(150%)';
-      element.style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
-      element.style.border = '1px solid rgba(255, 255, 255, 0.1)';
+      // Enhanced liquid glass with multiple layers
+      element.style.backdropFilter = 'blur(25px) saturate(180%) contrast(120%) brightness(110%)';
+      element.style.backgroundColor = 'rgba(0, 0, 0, 0.15)';
+      element.style.border = '1px solid rgba(255, 255, 255, 0.2)';
+      element.style.borderTop = '1px solid rgba(255, 255, 255, 0.3)';
+      element.style.borderLeft = '1px solid rgba(255, 255, 255, 0.25)';
       element.style.boxShadow = `
-        0 8px 32px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.2)
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 2px 8px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1),
+        inset 1px 0 0 rgba(255, 255, 255, 0.1),
+        inset -1px 0 0 rgba(0, 0, 0, 0.05)
       `;
     }
   }, []);
@@ -52,6 +40,7 @@ const useLiquidGlass = () => {
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isFullScreen, setIsFullScreen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
@@ -61,32 +50,74 @@ export default function Chatbot() {
     }
   ]);
   const [inputValue, setInputValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const liquidGlassRef = useLiquidGlass();
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const handleSendMessage = () => {
-    if (!inputValue.trim()) return;
+  // Auto scroll to bottom when new messages arrive
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  // Update message sending logic to call GPT API
+  const handleSendMessage = async () => {
+    if (!inputValue.trim() || isLoading) return;
+
+    const currentInput = inputValue;
 
     const userMessage: Message = {
       id: Date.now().toString(),
-      text: inputValue,
+      text: currentInput,
       sender: 'user',
-      timestamp: new Date()
+      timestamp: new Date(),
     };
-
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
+    setIsLoading(true);
 
-    // Generate a complimentary response
-    setTimeout(() => {
-      const randomResponse = complimentaryResponses[Math.floor(Math.random() * complimentaryResponses.length)];
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: currentInput }),
+      });
+
+      if (!response.ok) {
+        const maybeJson = await response.json().catch(() => ({}));
+        const errorText = maybeJson.error || `Request failed (${response.status})`;
+        const errorMessage: Message = {
+          id: (Date.now() + 2).toString(),
+          text: `Error: ${errorText}`,
+          sender: 'bot',
+          timestamp: new Date(),
+        };
+        setMessages(prev => [...prev, errorMessage]);
+        return;
+      }
+
+      const data = await response.json();
+      if (typeof window !== 'undefined') {
+        console.info('Chat model used:', data?.model);
+      }
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: randomResponse,
+        text: data.text,
         sender: 'bot',
-        timestamp: new Date()
+        timestamp: new Date(),
       };
       setMessages(prev => [...prev, botMessage]);
-    }, 1000);
+    } catch (error) {
+      console.error('Error fetching GPT response:', error);
+      const errorMessage: Message = {
+        id: (Date.now() + 3).toString(),
+        text: 'Sorry, I ran into a problem contacting the model. Please try again.',
+        sender: 'bot',
+        timestamp: new Date(),
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -95,127 +126,156 @@ export default function Chatbot() {
     }
   };
 
+  // Floating Action Button when collapsed
+  if (!isOpen) {
+    return (
+      <div className="fixed bottom-8 right-8 z-50">
+        <motion.button
+          onClick={() => setIsOpen(true)}
+          className="group relative w-16 h-16 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          style={{
+            boxShadow: '0 8px 32px rgba(251, 191, 36, 0.4), 0 4px 16px rgba(0, 0, 0, 0.2)'
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-orange-600 rounded-full blur opacity-50 group-hover:opacity-75 transition-opacity"></div>
+          <Sparkles className="relative w-8 h-8 text-white" />
+          
+          {/* Pulse indicator */}
+          <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white animate-pulse"></div>
+        </motion.button>
+      </div>
+    );
+  }
+
   return (
-    <>
-      {/* Chat toggle button */}
-      <motion.button
-        onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 w-14 h-14 bg-stone-800 text-stone-50 rounded-none rotate-12 hover:rotate-0 shadow-lg hover:shadow-xl transition-all duration-300 z-50 flex items-center justify-center border-2 border-amber-400"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
+    <div className={`fixed z-50 transition-all duration-500 ${
+      isFullScreen 
+        ? 'inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm' 
+        : 'bottom-8 right-8'
+    }`}>
+      <motion.div
+        ref={liquidGlassRef}
+        initial={{ opacity: 0, y: 20, scale: 0.9 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 20, scale: 0.9 }}
+        transition={{ duration: 0.5 }}
+        className={`relative backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 transition-all duration-500 flex flex-col ${
+          isFullScreen 
+            ? 'w-[80vw] h-[80vh] max-w-6xl max-h-[900px]' 
+            : 'w-96 h-[500px]'
+        }`}
+        style={{
+          background: 'rgba(55, 65, 81, 0.95)', // Consistent dark grey for both sizes
+          backdropFilter: 'blur(25px) saturate(180%) contrast(120%) brightness(110%)',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          boxShadow: `
+            0 20px 64px rgba(0, 0, 0, 0.4),
+            0 8px 32px rgba(0, 0, 0, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.15),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.1)
+          `,
+        }}
       >
-        <AnimatePresence mode="wait">
-          {isOpen ? (
-            <motion.div
-              key="close"
-              initial={{ opacity: 0, rotate: -90 }}
-              animate={{ opacity: 1, rotate: 0 }}
-              exit={{ opacity: 0, rotate: 90 }}
-              transition={{ duration: 0.2 }}
+        {/* Header */}
+        <div className="flex items-center justify-between p-6 border-b border-white/10">
+          <div className="flex items-center space-x-3">
+            <div className="relative">
+              <div className="w-10 h-10 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg">
+                <Sparkles className="w-5 h-5 text-white" />
+              </div>
+              <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white animate-pulse"></div>
+            </div>
+            <div>
+              <h3 className="text-white font-semibold text-lg">Arsh's Biggest Fan</h3>
+              <p className="text-white/70 text-sm">Ready to chat! ✨</p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => setIsFullScreen(!isFullScreen)}
+              className="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-xl transition-all"
             >
-              <X className="w-6 h-6" />
+              {isFullScreen ? <Minimize2 className="w-5 h-5" /> : <Maximize2 className="w-5 h-5" />}
+            </button>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-xl transition-all"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Messages */}
+        <div className="flex-1 overflow-y-auto p-6 space-y-4 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
+          {messages.map((message) => (
+            <motion.div
+              key={message.id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+            >
+              <div
+                className={`max-w-sm lg:max-w-md px-4 py-3 ${
+                  message.sender === 'user'
+                    ? 'bg-gradient-to-r from-amber-400 to-orange-400 text-black rounded-2xl rounded-br-lg shadow-xl'
+                    : 'bg-white/10 backdrop-blur-sm text-white rounded-2xl rounded-bl-lg border border-white/20 shadow-xl'
+                }`}
+              >
+                <p className="text-sm leading-relaxed">{message.text}</p>
+                <p className="text-xs opacity-70 mt-1">
+                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </p>
+              </div>
             </motion.div>
-          ) : (
+          ))}
+
+          {isLoading && (
             <motion.div
-              key="open"
-              initial={{ opacity: 0, rotate: 90 }}
-              animate={{ opacity: 1, rotate: 0 }}
-              exit={{ opacity: 0, rotate: -90 }}
-              transition={{ duration: 0.2 }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex justify-start"
             >
-              <MessageCircle className="w-6 h-6" />
+              <div className="bg-white/10 backdrop-blur-sm text-white px-4 py-3 rounded-2xl rounded-bl-lg border border-white/20 shadow-xl">
+                <div className="flex items-center space-x-2">
+                  <Sparkles className="w-4 h-4 text-amber-400" />
+                  <div className="flex space-x-1">
+                    <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                    <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  </div>
+                </div>
+              </div>
             </motion.div>
           )}
-        </AnimatePresence>
-      </motion.button>
+          
+          <div ref={messagesEndRef} />
+        </div>
 
-
-      {/* Chat window */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            ref={liquidGlassRef}
-            initial={{ opacity: 0, y: 20, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            transition={{ duration: 0.3 }}
-            className="fixed bottom-24 right-6 w-80 h-96 z-50 flex flex-col overflow-hidden rounded-2xl rotate-1"
-            style={{
-              background: 'rgba(255, 255, 255, 0.1)',
-              backdropFilter: 'blur(20px) saturate(180%)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              boxShadow: `
-                0 8px 32px rgba(31, 38, 135, 0.37),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.1)
-              `,
-            }}
-          >
-            {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-white/10">
-              <div className="flex items-center space-x-3">
-                <div className="relative">
-                  <div className="w-8 h-8 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full flex items-center justify-center">
-                    <span className="text-stone-900 text-sm font-bold">A</span>
-                  </div>
-                  <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-400 rounded-full border border-black animate-pulse"></div>
-                </div>
-                <div>
-                  <h3 className="text-stone-800 font-medium">Arsh's Biggest Fan</h3>
-                  <p className="text-stone-600 text-xs">Ask me how awesome he is!</p>
-                </div>
-              </div>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="p-1 text-stone-600 hover:text-stone-800 hover:bg-white/20 rounded transition-colors"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {messages.map((message) => (
-                <div
-                  key={message.id}
-                  className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-                >
-                  <div
-                    className={`max-w-xs px-4 py-3 ${
-                      message.sender === 'user'
-                        ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-stone-900 rounded-2xl rounded-br-lg shadow-lg'
-                        : 'bg-stone-700/80 backdrop-blur-sm text-stone-100 rounded-2xl rounded-bl-lg border border-stone-600/50 shadow-lg'
-                    }`}
-                  >
-                    <p className="text-sm leading-relaxed">{message.text}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Input */}
-            <div className="p-4 border-t border-white/10">
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  placeholder="Ask about Arsh..."
-                  className="flex-1 bg-white/10 text-stone-800 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400/50 backdrop-blur-sm border border-white/30 placeholder-stone-600"
-                />
-                <button
-                  onClick={handleSendMessage}
-                  disabled={!inputValue.trim()}
-                  className="w-10 h-10 bg-gradient-to-r from-amber-400 to-orange-500 text-stone-900 rounded-xl hover:from-amber-500 hover:to-orange-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center"
-                >
-                  <Send className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+        {/* Input */}
+        <div className="p-6 border-t border-white/10">
+          <div className="flex space-x-3">
+            <input
+              type="text"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Ask about Arsh's amazing achievements..."
+              className="flex-1 bg-white/10 text-white rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400/50 backdrop-blur-sm border border-white/20 placeholder-white/50"
+            />
+            <button
+              onClick={handleSendMessage}
+              disabled={!inputValue.trim() || isLoading}
+              className="px-4 py-3 bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-2xl transition-all shadow-lg flex items-center justify-center"
+            >
+              <Send className="w-5 h-5 text-white" />
+            </button>
+          </div>
+        </div>
+      </motion.div>
+    </div>
   );
 }

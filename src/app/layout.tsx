@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Arsh Jain - ML Engineer & Builder",
+  title: "Arsh Jain",
   description: "Personal website of Arsh Jain - Machine Learning Engineer at Coinbase, building the future of finance through AI and innovation.",
 };
 
