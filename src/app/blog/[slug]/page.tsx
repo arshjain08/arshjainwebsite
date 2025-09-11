@@ -2,9 +2,10 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Clock, ArrowLeft, Tag } from 'lucide-react';
+import { Calendar, Clock, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
-import { notFound, useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { notFound } from 'next/navigation';
 import blogData from '../../../../data/blog.json';
 import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
@@ -60,10 +61,8 @@ const TwitterEmbed = () => {
 };
 
 export default function BlogPost({ params }: any) {
-  const router = useRouter();
   const [resolvedParams, setResolvedParams] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [markdown, setMarkdown] = useState('');
 
   useEffect(() => {
     const resolveParams = async () => {
@@ -233,9 +232,11 @@ export default function BlogPost({ params }: any) {
       </strong>
     ),
     img: ({ src, alt }: any) => (
-      <img
+      <Image
         src={src}
         alt={alt}
+        width={800}
+        height={600}
         className="w-full h-auto rounded-lg shadow-lg my-8 mx-auto block"
       />
     ),
@@ -304,9 +305,11 @@ export default function BlogPost({ params }: any) {
           {/* Featured Image */}
           {ensuredPost.image && (
             <div className="mb-12">
-              <img
+              <Image
                 src={ensuredPost.image}
                 alt={ensuredPost.title}
+                width={800}
+                height={448}
                 className="w-full h-80 sm:h-96 md:h-[28rem] object-cover rounded-lg shadow-lg"
               />
             </div>
@@ -334,7 +337,7 @@ export default function BlogPost({ params }: any) {
         >
           <h3 className="text-lg font-bold text-stone-900 mb-6">What's Next?</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
-            <a 
+            <Link 
               href="/blog" 
               className="group no-underline block cursor-pointer" 
               style={{ textDecoration: 'none', position: 'relative', zIndex: 100, pointerEvents: 'auto' }}
@@ -347,9 +350,9 @@ export default function BlogPost({ params }: any) {
                   View all my thoughts and writings
                 </p>
               </div>
-            </a>
+            </Link>
             
-            <a 
+            <Link 
               href="/contact" 
               className="group no-underline block cursor-pointer" 
               style={{ textDecoration: 'none', position: 'relative', zIndex: 100, pointerEvents: 'auto' }}
@@ -362,7 +365,7 @@ export default function BlogPost({ params }: any) {
                   Have thoughts on this post? I'd love to hear them!
                 </p>
               </div>
-            </a>
+            </Link>
           </div>
         </motion.div>
       </main>

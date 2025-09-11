@@ -2,8 +2,6 @@
 
 import { motion } from 'framer-motion';
 import { Mail, Github, Linkedin, Twitter, MapPin, Send } from 'lucide-react';
-import Link from 'next/link';
-import { useState } from 'react';
 import Navigation from '@/components/Navigation';
 import { useForm, ValidationError } from '@formspree/react';
 

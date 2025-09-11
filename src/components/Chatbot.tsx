@@ -1,7 +1,7 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, X, Send, Maximize2, Minimize2, Brain, Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { X, Send, Maximize2, Minimize2, Sparkles } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 
 interface Message {

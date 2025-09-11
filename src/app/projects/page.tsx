@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { ExternalLink, Github, Filter, Star, FileText } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState } from 'react';
 import projectsData from '../../../data/projects.json';
 import Navigation from '@/components/Navigation';
@@ -157,9 +158,11 @@ export default function Projects() {
               {/* Project image */}
               <div className="aspect-video bg-gradient-to-br from-amber-100 to-stone-200 flex items-center justify-center border-b-2 border-stone-300 overflow-hidden">
                 {project.image ? (
-                  <img
+                  <Image
                     src={project.image}
                     alt={project.title}
+                    width={400}
+                    height={225}
                     className="w-full h-full object-cover"
                   />
                 ) : (

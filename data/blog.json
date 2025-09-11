@@ -53,12 +53,14 @@
     {
       "id": "technical",
       "name": "Technical",
-      "description": "Deep dives into technology, programming, and engineering topics"
+      "description": "Deep dives into technology, programming, and engineering topics",
+      "color": "#3B82F6"
     },
     {
       "id": "personal",
       "name": "Personal",
-      "description": "Life reflections, experiences, and personal growth stories"
+      "description": "Life reflections, experiences, and personal growth stories",
+      "color": "#10B981"
     }
   ]
 }

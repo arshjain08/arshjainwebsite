@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { ArrowLeft, Github, ExternalLink, Star, FileText, BookOpen } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import projectsData from '../../../../data/projects.json';
 import { useEffect, useState } from 'react';
@@ -48,7 +49,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
     let isMounted = true;
     async function loadMarkdown() {
       try {
-        const res = await fetch(`/api/projects/${resolvedParams.slug}`);
+        const res = await fetch(`/api/projects/${resolvedParams!.slug}`);
         if (res.ok) {
           const data = await res.json();
           if (isMounted) {
@@ -57,20 +58,20 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
           }
         } else {
           if (isMounted) {
-            setMarkdown(`# ${project.title}\n\n${project.description}`);
+            setMarkdown(`# ${project!.title}\n\n${project!.description}`);
             setLoading(false);
           }
         }
       } catch {
         if (isMounted) {
-          setMarkdown(`# ${project.title}\n\n${project.description}`);
+          setMarkdown(`# ${project!.title}\n\n${project!.description}`);
           setLoading(false);
         }
       }
     }
     loadMarkdown();
     return () => { isMounted = false; };
-  }, [resolvedParams?.slug, project]);
+  }, [resolvedParams, project]);
   
   if (!resolvedParams || !project) {
     return (
@@ -215,7 +216,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  router.push(project.blog);
+                  router.push(project.blog!);
                 }}
                 className="inline-flex items-center gap-2 bg-green-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-none hover:bg-green-700 transition-all transform hover:scale-105 text-sm sm:text-base font-medium cursor-pointer border-none"
                 style={{ position: 'relative', zIndex: 10000, pointerEvents: 'auto' }}
@@ -236,9 +237,11 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
             className="mb-8 sm:mb-12"
           >
             <div className="aspect-video bg-gradient-to-br from-amber-100 to-stone-200 border-2 border-stone-300 shadow-lg overflow-hidden rounded-lg">
-              <img
+              <Image
                 src={project.image}
                 alt={project.title}
+                width={800}
+                height={450}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -305,7 +308,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
         <div className="mt-12 sm:mt-16 relative z-10">
           <div className="border-t border-stone-300 pt-8">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
-              <a 
+              <Link 
                 href="/projects" 
                 className="group no-underline block cursor-pointer" 
                 style={{ textDecoration: 'none', position: 'relative', zIndex: 100, pointerEvents: 'auto' }}
@@ -318,9 +321,9 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                     View my complete portfolio
                   </p>
                 </div>
-              </a>
+              </Link>
               
-              <a 
+              <Link 
                 href="/contact" 
                 className="group no-underline block cursor-pointer" 
                 style={{ textDecoration: 'none', position: 'relative', zIndex: 100, pointerEvents: 'auto' }}
@@ -333,7 +336,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                     I'd love to discuss this project with you
                   </p>
                 </div>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
