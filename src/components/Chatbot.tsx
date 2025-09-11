@@ -44,7 +44,7 @@ export default function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: "Hi! I'm Arsh's biggest fan! Ask me anything about him and I'll tell you how amazing he is! 🌟",
+      text: "Hi! I'm the Arsh Hype Bot! Ask me anything about him and I'll hype him up! 😎",
       sender: 'bot',
       timestamp: new Date()
     }
@@ -188,7 +188,7 @@ export default function Chatbot() {
               <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white animate-pulse"></div>
             </div>
             <div>
-              <h3 className="text-white font-semibold text-lg">Arsh's Biggest Fan</h3>
+              <h3 className="text-white font-semibold text-lg">Arsh Hype Bot</h3>
               <p className="text-white/70 text-sm">Ready to chat! ✨</p>
             </div>
           </div>
