@@ -64,6 +64,8 @@ html {
   transform: none !important;
   visibility: visible !important;
   display: block !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
 }
 
 /* Additional rule to override any parent motion animations */
@@ -143,4 +145,3 @@ main article *,
   margin: 20px 0 !important;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
 }
-
