@@ -1,0 +1,5 @@
+# Detection and Localization of Intracranial Aneurysms (Kaggle / RSNA)
+
+Built a medical imaging pipeline for the RSNA Intracranial Aneurysm Detection competition, working with CTA, MRA, and MRI scans from diverse institutions. The data included large 3D volumes, heavy class imbalance, and heterogeneous imaging protocols. I preprocessed DICOM studies with modality-specific normalization and slice ordering to keep spatial context, reformatted volumes into ordered 2D slices, extracted features with lightweight CNN backbones, and aggregated across depth with depthwise temporal convolutions. Weighted loss functions handled imbalance while saliency checks verified the model focused on vascular regions.
+
+The pipeline achieved a modified AUC around 0.62 on held-out competition data, outperforming baseline approaches. It stayed efficient by keeping the backbone lightweight while still capturing volumetric context through slice aggregation, balancing accuracy with inference speed for large clinical scans.

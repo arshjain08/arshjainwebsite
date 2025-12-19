@@ -1,5 +1,8 @@
 export const getProjectTldr = (projectId: string): string => {
   const tldrs: Record<string, string> = {
+    'fedavg-realistic': "Built a PyTorch federated learning simulator to stress-test FedAvg with non-IID data, partial participation, and async client delays. Found MNIST remains stable while CIFAR-100 accuracy collapses when client drift and staleness combine.",
+    'aha-drone-delivery': "A decentralized drone delivery platform with a Go routing engine using goroutines, worker pools, and grid-based shortest paths. Dispatches fleets across cities without tying merchants to droneports, with a TypeScript/Convex frontend to monitor and control flights live.",
+    'intracranial-aneurysm': "Slice-based CNN pipeline on RSNA Kaggle brain scans using modality-aware preprocessing and depthwise aggregation across slices. Achieved around 0.62 AUC for efficient aneurysm detection and localization.",
     'pricepal': "Built an AR shopping assistant for the Mentra Hackathon that prevents overpaying. Uses computer vision and AI to instantly recognize products and compare prices across retailers through voice commands on smart glasses. Gained major social media traction and recognition from Mentra's leadership.",
     'wattsonai': "Built an AI assistant for Bitcoin mining optimization at the MARA hackathon. Uses real-time data to recommend resource allocation between mining, inference, and battery storage. Features voice commands and natural language processing.",
     'ricedatathon2024': "Developed a neural network to predict peak oil production rates for Chevron. Used TensorFlow/Keras with hyperparameter tuning and achieved high accuracy through feature engineering and regularization techniques.",

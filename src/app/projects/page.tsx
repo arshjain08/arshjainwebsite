@@ -13,11 +13,19 @@ export default function Projects() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [showFeaturedOnly, setShowFeaturedOnly] = useState(false);
 
-  const filteredProjects = projectsData.projects.filter(project => {
-    const categoryMatch = selectedCategory === 'all' || project.category === selectedCategory;
-    const featuredMatch = !showFeaturedOnly || project.featured;
-    return categoryMatch && featuredMatch;
-  });
+  const filteredProjects = projectsData.projects
+    .map((project, index) => ({ project, index }))
+    .filter(({ project }) => {
+      const categoryMatch = selectedCategory === 'all' || project.category === selectedCategory;
+      const featuredMatch = !showFeaturedOnly || project.featured;
+      return categoryMatch && featuredMatch;
+    })
+    .sort((a, b) => {
+      const featuredOrder = Number(b.project.featured) - Number(a.project.featured);
+      if (featuredOrder !== 0) return featuredOrder;
+      return a.index - b.index;
+    })
+    .map(({ project }) => project);
 
   return (
     <div className="min-h-screen bg-stone-50 relative">
@@ -258,11 +266,11 @@ export default function Projects() {
                       <span className="text-sm">
                         {(project as any).slides.includes('youtube.com') 
                           ? 'Video' 
-                          : (project as any).slides.includes('docs.google.com') 
-                            ? 'Slides'
+                          : (project as any).slides.includes('docs.google.com') || (project as any).slides.includes('drive.google.com')
+                            ? 'Read Writeup'
                             : (project as any).slides.includes('twitter.com') || (project as any).slides.includes('x.com')
                               ? 'X Post'
-                              : 'Demo'}
+                              : 'View Link'}
                       </span>
                     </a>
                   )}

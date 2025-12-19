@@ -233,13 +233,6 @@ export default function Contact() {
               </div>
             </div>
 
-            <div className="bg-stone-100 border-l-4 border-purple-500 p-6 shadow-md">
-              <h3 className="text-lg font-bold text-stone-900 font-mono mb-4">Response Time</h3>
-              <p className="text-stone-700 text-sm leading-relaxed">
-                I typically respond to emails within 24-48 hours. For urgent matters, 
-                feel free to reach out on LinkedIn for a quicker response.
-              </p>
-            </div>
           </motion.div>
         </div>
 
