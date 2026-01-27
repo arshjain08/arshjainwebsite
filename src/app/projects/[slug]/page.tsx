@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowLeft, Github, ExternalLink, Star, FileText, BookOpen } from 'lucide-react';
+import { ArrowLeft, Github, ExternalLink, Star, FileText, BookOpen, Moon, Sun } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { getProjectTldr } from '@/utils/projectTldrs';
+import { useTheme } from '@/components/ThemeProvider';
 
 interface Project {
   id: string;
@@ -32,6 +33,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
   const [project, setProject] = useState<Project | null>(null);
   const [markdown, setMarkdown] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
+  const { isDark, toggleTheme } = useTheme();
 
   useEffect(() => {
     async function resolveParams() {
@@ -75,8 +77,8 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
   
   if (!resolvedParams || !project) {
     return (
-      <div className="min-h-screen bg-stone-50 flex items-center justify-center">
-        <div className="text-stone-500">Loading...</div>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className={isDark ? 'text-slate-300' : 'text-stone-500'}>Loading...</div>
       </div>
     );
   }
@@ -84,27 +86,47 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
   const category = projectsData.categories.find(c => c.id === project.category);
 
   return (
-    <div className="min-h-screen bg-stone-50 relative">
-      {/* Subtle paper texture */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(120,119,198,0.1)_1px,transparent_0)] bg-[length:20px_20px]" />
-      </div>
-      
+    <div className="min-h-screen relative overflow-hidden">
       {/* Navigation */}
       <nav className="relative z-20 p-4 sm:p-6">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <Link href="/" className="text-lg sm:text-xl font-bold text-stone-800 relative">
-            <span className="relative z-10">AJ</span>
-            <div className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-300/60 -z-10 -skew-x-12 highlight-permanent" />
-          </Link>
-          
-          <Link 
-            href="/projects"
-            className="flex items-center gap-2 text-stone-700 hover:text-stone-900 transition-colors relative z-10 cursor-pointer bg-transparent border-none no-underline"
+        <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
+          <Link
+            href="/"
+            className={`text-lg sm:text-xl font-bold relative ${
+              isDark ? 'text-slate-100' : 'text-stone-800'
+            }`}
           >
-            <ArrowLeft className="w-4 h-4" />
-            <span className="text-sm sm:text-base">Back to Projects</span>
+            <span className="relative z-10">AJ</span>
+            <div
+              className={`absolute -bottom-1 left-0 w-full h-2 -z-10 -skew-x-12 highlight-permanent ${
+                isDark ? 'bg-violet-400/50' : 'bg-yellow-300/60'
+              }`}
+            />
           </Link>
+
+          <div className="flex items-center gap-3">
+            <Link
+              href="/projects"
+              className={`flex items-center gap-2 transition-colors relative z-10 cursor-pointer bg-transparent border-none no-underline ${
+                isDark ? 'text-slate-300 hover:text-slate-50' : 'text-stone-700 hover:text-stone-900'
+              }`}
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span className="text-sm sm:text-base">Back to Projects</span>
+            </Link>
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className={`inline-flex items-center justify-center w-10 h-10 rounded-full border transition-colors ${
+                isDark
+                  ? 'border-slate-700 bg-slate-900 text-slate-200 hover:bg-slate-800'
+                  : 'border-stone-200 bg-stone-100 text-stone-700 hover:bg-stone-200'
+              }`}
+              aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+            >
+              {isDark ? <Moon size={18} /> : <Sun size={18} />}
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -128,8 +150,12 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
             <span
               className={`px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${
                 project.status === 'completed'
-                  ? 'bg-green-100 text-green-700'
-                  : 'bg-yellow-100 text-yellow-700'
+                  ? isDark
+                    ? 'bg-emerald-900/40 text-emerald-200 border border-emerald-700/50'
+                    : 'bg-green-100 text-green-700'
+                  : isDark
+                    ? 'bg-amber-900/40 text-amber-200 border border-amber-700/50'
+                    : 'bg-yellow-100 text-yellow-700'
               }`}
             >
               {project.status === 'completed' ? 'Completed' : 'In Progress'}
@@ -138,16 +164,22 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
             {project.featured && (
               <div className="flex items-center gap-1">
                 <Star className="w-4 h-4 text-yellow-500 fill-current" />
-                <span className="text-xs sm:text-sm text-gray-600">Featured</span>
+                <span className={`text-xs sm:text-sm ${isDark ? 'text-slate-300' : 'text-gray-600'}`}>
+                  Featured
+                </span>
               </div>
             )}
           </div>
           
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-stone-900 mb-4 sm:mb-6 leading-tight font-mono">
+          <h1
+            className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 leading-tight font-mono ${
+              isDark ? 'text-slate-50' : 'text-stone-900'
+            }`}
+          >
             {project.title}
           </h1>
           
-          <p className="text-lg sm:text-xl text-stone-700 leading-relaxed mb-6 sm:mb-8">
+          <p className={`text-lg sm:text-xl leading-relaxed mb-6 sm:mb-8 ${isDark ? 'text-slate-300' : 'text-stone-700'}`}>
             {getProjectTldr(project.id)}
           </p>
           
@@ -156,7 +188,11 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
             {project.tech.map((tech, index) => (
               <span
                 key={index}
-                className="bg-blue-50 text-blue-700 px-2 sm:px-3 py-1 rounded-lg text-xs sm:text-sm font-medium border border-blue-200"
+                className={`px-2 sm:px-3 py-1 rounded-lg text-xs sm:text-sm font-medium border ${
+                  isDark
+                    ? 'bg-blue-950/40 text-blue-200 border-blue-800/50'
+                    : 'bg-blue-50 text-blue-700 border-blue-200'
+                }`}
               >
                 {tech}
               </span>
@@ -240,7 +276,13 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mb-8 sm:mb-12"
           >
-            <div className="aspect-video bg-gradient-to-br from-amber-100 to-stone-200 border-2 border-stone-300 shadow-lg overflow-hidden rounded-lg">
+            <div
+              className={`aspect-video border-2 shadow-lg overflow-hidden rounded-lg ${
+                isDark
+                  ? 'bg-gradient-to-br from-slate-900 to-slate-800 border-slate-700'
+                  : 'bg-gradient-to-br from-amber-100 to-stone-200 border-stone-300'
+              }`}
+            >
               <Image
                 src={project.image}
                 alt={project.title}
@@ -261,15 +303,23 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
         >
           {/* Main content */}
           <div className="lg:col-span-2">
-            <div className="bg-white/80 backdrop-blur-sm rounded-none border-l-4 p-4 sm:p-6 md:p-8 shadow-lg"
-                 style={{ borderLeftColor: category?.color || '#6B7280' }}>
-              <h2 className="text-xl sm:text-2xl font-bold text-stone-900 mb-4 sm:mb-6 font-mono">Project Overview</h2>
+            <div
+              className={`rounded-none border-l-4 p-4 sm:p-6 md:p-8 shadow-lg ${
+                isDark ? 'bg-slate-950/70 backdrop-blur-sm border-slate-700' : 'bg-white/80 backdrop-blur-sm'
+              }`}
+              style={{ borderLeftColor: category?.color || '#6B7280' }}
+            >
+              <h2 className={`text-xl sm:text-2xl font-bold mb-4 sm:mb-6 font-mono ${isDark ? 'text-slate-100' : 'text-stone-900'}`}>
+                Project Overview
+              </h2>
               {loading ? (
-                <div className="text-stone-500">Loading content…</div>
+                <div className={isDark ? 'text-slate-300' : 'text-stone-500'}>Loading content…</div>
               ) : (
                 <ReactMarkdown 
                   remarkPlugins={[remarkGfm]} 
-                  className="prose prose-lg sm:prose-lg max-w-none text-stone-700"
+                  className={`prose prose-lg sm:prose-lg max-w-none ${
+                    isDark ? 'prose-invert text-slate-300' : 'text-stone-700'
+                  }`}
                 >
                   {/* Remove duplicate title from markdown */}
                   {markdown.replace(/^# .+\n\n?/m, '').trim()}
@@ -281,25 +331,41 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Project Info */}
-            <div className="bg-stone-100 border-l-4 border-emerald-400 p-4 sm:p-6 shadow-md">
-              <h3 className="text-lg font-bold text-stone-900 mb-4 font-mono">Project Info</h3>
+            <div
+              className={`border-l-4 border-emerald-400 p-4 sm:p-6 shadow-md ${
+                isDark ? 'bg-slate-950/70 border-slate-700' : 'bg-stone-100'
+              }`}
+            >
+              <h3 className={`text-lg font-bold mb-4 font-mono ${isDark ? 'text-slate-100' : 'text-stone-900'}`}>
+                Project Info
+              </h3>
               <div className="space-y-3">
                 <div>
-                  <div className="text-xs text-stone-500 uppercase tracking-wide">Category</div>
-                  <div className="text-sm text-stone-700 font-medium">{category?.name}</div>
+                  <div className={`text-xs uppercase tracking-wide ${isDark ? 'text-slate-400' : 'text-stone-500'}`}>
+                    Category
+                  </div>
+                  <div className={`text-sm font-medium ${isDark ? 'text-slate-200' : 'text-stone-700'}`}>
+                    {category?.name}
+                  </div>
                 </div>
                 <div>
-                  <div className="text-xs text-stone-500 uppercase tracking-wide">Status</div>
-                  <div className="text-sm text-stone-700 font-medium">
+                  <div className={`text-xs uppercase tracking-wide ${isDark ? 'text-slate-400' : 'text-stone-500'}`}>
+                    Status
+                  </div>
+                  <div className={`text-sm font-medium ${isDark ? 'text-slate-200' : 'text-stone-700'}`}>
                     {project.status === 'completed' ? 'Completed' : 'In Progress'}
                   </div>
                 </div>
                 {project.featured && (
                   <div>
-                    <div className="text-xs text-stone-500 uppercase tracking-wide">Featured</div>
+                    <div className={`text-xs uppercase tracking-wide ${isDark ? 'text-slate-400' : 'text-stone-500'}`}>
+                      Featured
+                    </div>
                     <div className="flex items-center gap-1">
                       <Star className="w-4 h-4 text-yellow-500 fill-current" />
-                      <span className="text-sm text-stone-700 font-medium">Yes</span>
+                      <span className={`text-sm font-medium ${isDark ? 'text-slate-200' : 'text-stone-700'}`}>
+                        Yes
+                      </span>
                     </div>
                   </div>
                 )}
@@ -310,18 +376,24 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
 
         {/* Navigation to other projects - FIXED CLICKABLE */}
         <div className="mt-12 sm:mt-16 relative z-10">
-          <div className="border-t border-stone-300 pt-8">
+          <div className={`border-t pt-8 ${isDark ? 'border-slate-700' : 'border-stone-300'}`}>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
               <Link 
                 href="/projects" 
                 className="group no-underline block cursor-pointer" 
                 style={{ textDecoration: 'none', position: 'relative', zIndex: 100, pointerEvents: 'auto' }}
               >
-                <div className="bg-stone-100 border-l-4 border-amber-400 p-4 sm:p-6 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-                  <h3 className="font-bold text-stone-900 mb-2 group-hover:text-amber-600 transition-colors text-sm sm:text-base">
+                <div
+                  className={`border-l-4 border-amber-400 p-4 sm:p-6 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 ${
+                    isDark ? 'bg-slate-950/70' : 'bg-stone-100'
+                  }`}
+                >
+                  <h3 className={`font-bold mb-2 transition-colors text-sm sm:text-base ${
+                    isDark ? 'text-slate-100 group-hover:text-amber-300' : 'text-stone-900 group-hover:text-amber-600'
+                  }`}>
                     ← All Projects
                   </h3>
-                  <p className="text-stone-600 text-xs sm:text-sm">
+                  <p className={`text-xs sm:text-sm ${isDark ? 'text-slate-400' : 'text-stone-600'}`}>
                     View my complete portfolio
                   </p>
                 </div>
@@ -332,11 +404,17 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
                 className="group no-underline block cursor-pointer" 
                 style={{ textDecoration: 'none', position: 'relative', zIndex: 100, pointerEvents: 'auto' }}
               >
-                <div className="bg-stone-100 border-l-4 border-emerald-400 p-4 sm:p-6 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-                  <h3 className="font-bold text-stone-900 mb-2 group-hover:text-emerald-600 transition-colors text-sm sm:text-base">
+                <div
+                  className={`border-l-4 border-emerald-400 p-4 sm:p-6 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 ${
+                    isDark ? 'bg-slate-950/70' : 'bg-stone-100'
+                  }`}
+                >
+                  <h3 className={`font-bold mb-2 transition-colors text-sm sm:text-base ${
+                    isDark ? 'text-slate-100 group-hover:text-emerald-300' : 'text-stone-900 group-hover:text-emerald-600'
+                  }`}>
                     Interested? Let's Talk →
                   </h3>
-                  <p className="text-stone-600 text-xs sm:text-sm">
+                  <p className={`text-xs sm:text-sm ${isDark ? 'text-slate-400' : 'text-stone-600'}`}>
                     I'd love to discuss this project with you
                   </p>
                 </div>

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, ArrowLeft } from 'lucide-react';
+import { Calendar, ArrowLeft, Moon, Sun } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
@@ -10,6 +10,7 @@ import blogData from '../../../../data/blog.json';
 import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { useTheme } from '@/components/ThemeProvider';
 
 // Extend Window interface for Twitter widgets
 declare global {
@@ -63,6 +64,7 @@ const TwitterEmbed = () => {
 export default function BlogPost({ params }: any) {
   const [resolvedParams, setResolvedParams] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const { isDark, toggleTheme } = useTheme();
 
   useEffect(() => {
     const resolveParams = async () => {
@@ -243,26 +245,46 @@ export default function BlogPost({ params }: any) {
   };
 
   return (
-    <div className="min-h-screen bg-stone-50 relative">
-      {/* Background texture */}
-      <div className="absolute inset-0 opacity-20 pointer-events-none">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(120,119,198,0.1)_1px,transparent_0)] bg-[length:20px_20px] pointer-events-none" />
-      </div>
-
+    <div className="min-h-screen relative overflow-hidden">
       {/* Navigation */}
       <nav className="relative z-10 p-6">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <Link href="/" className="text-lg sm:text-xl font-bold text-stone-800 relative">
-            <span className="relative z-10">AJ</span>
-            <div className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-300/60 -z-10 -skew-x-12" />
-          </Link>
-          <Link 
-            href="/blog"
-            className="inline-flex items-center gap-2 text-stone-700 hover:text-stone-900 transition-colors font-medium"
+        <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
+          <Link
+            href="/"
+            className={`text-lg sm:text-xl font-bold relative ${
+              isDark ? 'text-slate-100' : 'text-stone-800'
+            }`}
           >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Blog
+            <span className="relative z-10">AJ</span>
+            <div
+              className={`absolute -bottom-1 left-0 w-full h-2 -z-10 -skew-x-12 ${
+                isDark ? 'bg-violet-400/50' : 'bg-yellow-300/60'
+              }`}
+            />
           </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/blog"
+              className={`inline-flex items-center gap-2 transition-colors font-medium ${
+                isDark ? 'text-slate-300 hover:text-slate-50' : 'text-stone-700 hover:text-stone-900'
+              }`}
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to Blog
+            </Link>
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className={`inline-flex items-center justify-center w-10 h-10 rounded-full border transition-colors ${
+                isDark
+                  ? 'border-slate-700 bg-slate-900 text-slate-200 hover:bg-slate-800'
+                  : 'border-stone-200 bg-stone-100 text-stone-700 hover:bg-stone-200'
+              }`}
+              aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+            >
+              {isDark ? <Moon size={18} /> : <Sun size={18} />}
+            </button>
+          </div>
         </div>
       </nav>
 

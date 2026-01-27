@@ -9,11 +9,7 @@ export default function Contact() {
   const [state, handleSubmit] = useForm("xwpnyqvb");
 
   return (
-    <div className="min-h-screen bg-stone-50 relative">
-      {/* Subtle paper texture */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(120,119,198,0.1)_1px,transparent_0)] bg-[length:20px_20px]" />
-      </div>
+    <div className="min-h-screen relative overflow-hidden">
 
       {/* Navigation */}
       <Navigation className="relative z-10 p-6" />
@@ -195,7 +191,7 @@ export default function Contact() {
                   <h3 className="text-lg font-bold text-stone-900 font-mono">Location</h3>
                 </div>
                 <p className="text-stone-700 mb-2">Currently based in</p>
-                <p className="text-stone-800 font-medium">New York City, NY</p>
+                <p className="text-stone-800 font-medium">Palo Alto, CA</p>
               </div>
 
               <div className="bg-stone-100 border-l-4 border-rose-400 p-6 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 rotate-1 hover:rotate-0">

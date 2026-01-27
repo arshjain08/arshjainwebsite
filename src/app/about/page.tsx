@@ -39,11 +39,7 @@ export default function About() {
   };
 
   return (
-    <div className="min-h-screen bg-stone-50 relative">
-      {/* Subtle paper texture */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(120,119,198,0.1)_1px,transparent_0)] bg-[length:20px_20px]" />
-      </div>
+    <div className="min-h-screen relative overflow-hidden">
       {/* Navigation */}
       <Navigation className="p-6" />
 

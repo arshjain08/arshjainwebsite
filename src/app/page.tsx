@@ -19,12 +19,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-stone-50 relative overflow-hidden">
-      {/* Subtle paper texture */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(120,119,198,0.1)_1px,transparent_0)] bg-[length:20px_20px]" />
-      </div>
-      
+    <div className="min-h-screen relative overflow-hidden">
       {/* Floating geometric shapes */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div 
@@ -35,6 +30,10 @@ export default function Home() {
           }}
         />
         <div className="absolute top-1/4 right-1/4 w-6 h-6 border-2 border-emerald-600/40 rounded-full animate-bounce" style={{ animationDuration: '4s' }} />
+        <div
+          className="absolute top-1/3 left-1/3 w-2 h-2 rounded-full bg-slate-400/50 animate-pulse"
+          style={{ animationDuration: '3.5s' }}
+        />
       </div>
 
       {/* Navigation */}
@@ -57,10 +56,12 @@ export default function Home() {
             className="mb-6"
           >
             <div className="inline-block relative mb-8">
-              <span className="text-sm font-medium text-stone-600 bg-stone-100 px-4 py-2 rounded-full border border-stone-200">
-                Welcome to my corner of the internet
+            <span
+            className="text-sm font-medium px-4 py-2 rounded-full border text-stone-600 bg-stone-100 border-stone-200"
+            >
+                Welcome to my galaxy of thoughts
               </span>
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-400 rounded-full animate-pulse" />
+            <div className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-400 rounded-full animate-pulse" />
             </div>
           </motion.div>
 
@@ -84,13 +85,7 @@ export default function Home() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-lg sm:text-xl md:text-2xl text-stone-700 mb-8 max-w-3xl mx-auto leading-relaxed px-4"
           >
-            Senior at{' '}
-            <span className="font-semibold text-stone-900 relative">
-              Rice University
-              <span className="absolute -bottom-0.5 left-0 w-full h-1 bg-blue-400/50 block" />
-            </span>{' '}passionate about solving world's hardest problems.
-            <br />
-            <span className="text-stone-600">Previous SWE Intern at Coinbase and SLB.</span>
+            Member of Technical Staff at xAI passionate about understanding the universe
           </motion.p>
 
           <motion.div
@@ -101,7 +96,7 @@ export default function Home() {
           >
             <Link
               href="/about"
-              className="group inline-flex items-center gap-2 bg-stone-900 text-stone-50 px-8 py-4 rounded-none skew-x-[-2deg] hover:skew-x-0 transition-all duration-300 transform hover:scale-105 shadow-lg"
+            className="group inline-flex items-center gap-2 bg-stone-900 text-stone-50 px-8 py-4 rounded-none skew-x-[-2deg] hover:skew-x-0 transition-all duration-300 transform hover:scale-105 shadow-lg"
             >
               <span className="skew-x-[2deg]">Get to know me</span>
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 skew-x-[2deg]" />

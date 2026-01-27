@@ -1,9 +1,9 @@
 {
   "name": "Arsh Jain",
   "title": "Computer Science Student",
-  "location": "New York City, NY",
-  "intro": "Welcome to my corner of the internet! I'm a senior at Rice University passionate about solving the world's hardest problems.",
-  "bio": "I'm currently a senior at Rice University studying Computer Science, Operations Research, and Economics. Previously, I was a Software Engineering Intern at Coinbase and SLB. If you want to dive deep into my career history, go to my LinkedIn. Here is where you can learn about me, my interests, what I've built, and what I am building :D  ",
+  "location": "Palo Alto, CA",
+  "intro": "Welcome to my corner of the internet! I'm a Member of Technical Staff at xAI, a startup set on understanding the universe",
+  "bio": "Right now, I am a Member of Technical Staff at xAI, helping build the future of AI. Before that, I was at Rice University studying CS and Econ with a minor in Operations Research. If you want to dive deep into my career history, go to my LinkedIn. Here is where you can learn about me, my interests, what I've built, and what I am building :D  ",
   "photos": [
     "/images/arsh-1.JPG",
     "/images/arsh-2.JPG",
@@ -11,6 +11,13 @@
     "/images/arsh-4.JPG"
   ],
   "experiences": [
+    {
+      "title": "Member of Technical Staff",
+      "company": "xAI",
+      "duration": "Present",
+      "description": "AI Agents + Evals + Understanding the Universe",
+      "type": "work"
+    },
     {
       "title": "ML Engineer Intern",
       "company": "Coinbase",
@@ -24,13 +31,6 @@
       "duration": "Summer 2024",
       "description": "Anomaly detection in oil rig logs, and AI Agent automaly resolution",
       "type": "work"
-    },
-    {
-      "title": "Research Assistant",
-      "company": "Rice University",
-      "duration": "2024-2025",
-      "description": "Building AI Agents to aid sociologists",
-      "type": "research"
     }
   ],
   "interests": [

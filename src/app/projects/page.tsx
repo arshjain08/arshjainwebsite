@@ -28,11 +28,7 @@ export default function Projects() {
     .map(({ project }) => project);
 
   return (
-    <div className="min-h-screen bg-stone-50 relative">
-      {/* Subtle paper texture */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(120,119,198,0.1)_1px,transparent_0)] bg-[length:20px_20px]" />
-      </div>
+    <div className="min-h-screen relative overflow-hidden">
       {/* Navigation */}
       <Navigation className="p-4 sm:p-6" />
 
@@ -161,7 +157,7 @@ export default function Projects() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 * index }}
-              className="bg-stone-100 rounded-none overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border-2 border-stone-300 rotate-1 hover:rotate-0"
+              className="project-card bg-stone-100 rounded-none overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border-2 border-stone-300 rotate-1 hover:rotate-0"
             >
               {/* Project image */}
               <div className="aspect-video bg-gradient-to-br from-amber-100 to-stone-200 flex items-center justify-center border-b-2 border-stone-300 overflow-hidden">
@@ -189,7 +185,9 @@ export default function Projects() {
                   )}
                 </div>
                 
-                <p className="text-gray-600 mb-4 line-clamp-3 text-sm sm:text-base">{getProjectTldr(project.id)}</p>
+                <p className="project-card-desc text-stone-700 mb-4 line-clamp-3 text-sm sm:text-base leading-relaxed">
+                  {getProjectTldr(project.id)}
+                </p>
                 
                 {/* Tech stack */}
                 <div className="flex flex-wrap gap-2 mb-4">
@@ -235,7 +233,7 @@ export default function Projects() {
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition-colors"
+                      className="project-card-link flex items-center gap-2 text-stone-700 hover:text-blue-600 transition-colors"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <Github className="w-4 h-4" />
@@ -247,7 +245,7 @@ export default function Projects() {
                       href={project.demo}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition-colors"
+                      className="project-card-link flex items-center gap-2 text-stone-700 hover:text-blue-600 transition-colors"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <ExternalLink className="w-4 h-4" />
@@ -259,7 +257,7 @@ export default function Projects() {
                       href={(project as any).slides}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition-colors"
+                      className="project-card-link flex items-center gap-2 text-stone-700 hover:text-blue-600 transition-colors"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <FileText className="w-4 h-4" />

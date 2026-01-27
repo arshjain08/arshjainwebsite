@@ -25,6 +25,65 @@ body {
   font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
 
+html[data-theme='light'] {
+  --background: #fafaf9;
+  --foreground: #0f172a;
+}
+
+html[data-theme='dark'] {
+  --background: #050816;
+  --foreground: #e2e8f0;
+}
+
+html[data-theme='dark'] .bg-stone-50 {
+  background-color: rgba(2, 6, 23, 0.9) !important;
+}
+
+html[data-theme='dark'] .bg-stone-100 {
+  background-color: rgba(15, 23, 42, 0.95) !important;
+}
+
+html[data-theme='dark'] .bg-stone-200 {
+  background-color: rgba(30, 41, 59, 0.9) !important;
+}
+
+html[data-theme='dark'] .text-stone-900 {
+  color: #f8fafc !important;
+}
+
+html[data-theme='dark'] .text-stone-800 {
+  color: #e2e8f0 !important;
+}
+
+html[data-theme='dark'] .text-stone-700 {
+  color: #cbd5e1 !important;
+}
+
+html[data-theme='dark'] .text-stone-600 {
+  color: #94a3b8 !important;
+}
+
+html[data-theme='dark'] .text-stone-500 {
+  color: #94a3b8 !important;
+}
+
+html[data-theme='dark'] .project-card-desc {
+  color: #e2e8f0 !important;
+}
+
+html[data-theme='dark'] .project-card-link {
+  color: #cbd5e1 !important;
+}
+
+html[data-theme='dark'] .project-card-link:hover {
+  color: #93c5fd !important;
+}
+
+html[data-theme='dark'] .border-stone-200,
+html[data-theme='dark'] .border-stone-300 {
+  border-color: #334155 !important;
+}
+
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
