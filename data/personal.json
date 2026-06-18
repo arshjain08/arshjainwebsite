@@ -1,9 +1,9 @@
 {
   "name": "Arsh Jain",
-  "title": "Computer Science Student",
+  "title": "Member of Technical Staff at xAI",
   "location": "Palo Alto, CA",
-  "intro": "Welcome to my corner of the internet! I'm a Member of Technical Staff at xAI, a startup set on understanding the universe",
-  "bio": "Right now, I am a Member of Technical Staff at xAI, helping build the future of AI. Before that, I was at Rice University studying CS and Econ with a minor in Operations Research. If you want to dive deep into my career history, go to my LinkedIn. Here is where you can learn about me, my interests, what I've built, and what I am building :D  ",
+  "intro": "Welcome to my corner of the internet! I'm a Member of Technical Staff at xAI working on Grok Imagine pre-training and data.",
+  "bio": "Right now, I am a Member of Technical Staff at xAI working on Grok Imagine pre-training and data. Before that, I was at Rice University studying CS and Econ with a minor in Operations Research. If you want to dive deep into my career history, go to my LinkedIn. Here is where you can learn about me, my interests, what I've built, and what I am building :D  ",
   "photos": [
     "/images/arsh-1.JPG",
     "/images/arsh-2.JPG",
@@ -15,7 +15,7 @@
       "title": "Member of Technical Staff",
       "company": "xAI",
       "duration": "Present",
-      "description": "AI Agents + Evals + Understanding the Universe",
+      "description": "Grok Imagine Pre-training + Data",
       "type": "work"
     },
     {

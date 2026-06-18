@@ -85,7 +85,7 @@ export default function Home() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-lg sm:text-xl md:text-2xl text-stone-700 mb-8 max-w-3xl mx-auto leading-relaxed px-4"
           >
-            Member of Technical Staff at xAI passionate about understanding the universe
+            Member of Technical Staff at xAI
           </motion.p>
 
           <motion.div
