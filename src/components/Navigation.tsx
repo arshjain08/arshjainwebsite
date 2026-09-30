@@ -1,141 +1,65 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, Moon, Sun, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
 import { useTheme } from '@/components/ThemeProvider';
 
-interface NavigationProps {
-  className?: string;
-}
+const links = [
+  { href: '/about', label: 'About', number: '01' },
+  { href: '/projects', label: 'Projects', number: '02' },
+  { href: '/blog', label: 'Writing', number: '03' },
+  { href: '/contact', label: 'Contact', number: '04' },
+];
 
-export default function Navigation({ className = '' }: NavigationProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [currentPath, setCurrentPath] = useState('');
+export default function Navigation({ className = '' }: { className?: string }) {
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
   const { isDark, toggleTheme } = useTheme();
 
-  useEffect(() => {
-    setCurrentPath(pathname);
-  }, [pathname]);
-
-  const links = [
-    { href: '/about', label: 'About', colorClass: 'bg-amber-400' },
-    { href: '/projects', label: 'Projects', colorClass: 'bg-emerald-500' },
-    { href: '/blog', label: 'Blog', colorClass: 'bg-rose-400' },
-    { href: '/contact', label: 'Contact', colorClass: 'bg-blue-400' }
-  ];
-
-  const isActiveLink = (href: string) => {
-    if (href === '/') return currentPath === '/';
-    return currentPath.startsWith(href);
-  };
-
   return (
-    <nav className={`relative z-50 ${className}`}>
-      <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
-        <Link
-          href="/"
-          className={`text-lg sm:text-xl font-bold relative ${
-            isDark ? 'text-slate-100' : 'text-stone-800'
-          }`}
-        >
-          <span className="relative z-10">AJ</span>
-          <div
-            className={`absolute -bottom-1 left-0 w-full h-2 -z-10 -skew-x-12 highlight-permanent ${
-              isDark ? 'bg-violet-400/50' : 'bg-yellow-300/60'
-            }`}
-          />
-        </Link>
-        
-        {/* Desktop Navigation */}
-        <div className="hidden sm:flex space-x-6 md:space-x-8">
-          {links.map((link) => (
-            <Link 
-              key={link.href}
-              href={link.href} 
-              className={`transition-colors relative group ${
-                isDark ? 'text-slate-300 hover:text-slate-50' : 'text-stone-700 hover:text-stone-900'
-              } ${isActiveLink(link.href) ? (isDark ? 'text-slate-50 font-medium' : 'text-stone-900 font-medium') : ''}`}
-            >
-              <span>{link.label}</span>
-              <div 
-                className={`absolute -bottom-1 left-0 h-0.5 ${link.colorClass} ${
-                  isActiveLink(link.href) 
-                    ? 'w-full' 
-                    : 'w-0 group-hover:w-full transition-all duration-300'
-                }`}
-              />
-            </Link>
-          ))}
-        </div>
-        
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={toggleTheme}
-            className={`inline-flex items-center justify-center w-10 h-10 rounded-full border transition-colors ${
-              isDark
-                ? 'border-slate-700 bg-slate-900 text-slate-200 hover:bg-slate-800'
-                : 'border-stone-200 bg-stone-100 text-stone-700 hover:bg-stone-200'
-            }`}
-            aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
-          >
-            {isDark ? <Moon size={18} /> : <Sun size={18} />}
-          </button>
+    <header className={`relative z-40 ${className}`}>
+      <nav className="site-shell border-b rule py-4">
+        <div className="flex items-center justify-between gap-6">
+          <Link href="/" className="group flex items-baseline gap-3">
+            <span className="display-type text-2xl">Arsh Jain</span>
+          </Link>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className={`sm:hidden p-2 transition-colors ${
-              isDark ? 'text-slate-200 hover:text-slate-50' : 'text-stone-700 hover:text-stone-900'
-            }`}
-            aria-label="Toggle menu"
-          >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          <div className="hidden items-center gap-5 md:flex lg:gap-6">
+            {links.map((link) => {
+              const active = pathname.startsWith(link.href);
+              return (
+                <Link key={link.href} href={link.href} className={`group flex items-baseline gap-1.5 text-sm ${active ? 'text-[var(--accent)]' : ''}`}>
+                  <span className="font-mono text-[10px] text-[var(--muted)]">{link.number}</span>
+                  <span className="group-hover:text-[var(--accent)]">{link.label}</span>
+                </Link>
+              );
+            })}
+            <button onClick={toggleTheme} className="grid h-9 w-9 place-items-center text-[var(--muted)] hover:text-[var(--accent)]" aria-label={isDark ? 'Use light theme' : 'Use dark theme'}>
+              {isDark ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+          </div>
+
+          <button onClick={() => setIsOpen(!isOpen)} className="grid h-10 w-10 place-items-center md:hidden" aria-label="Toggle navigation">
+            {isOpen ? <X size={21} /> : <Menu size={21} />}
           </button>
         </div>
-      </div>
-      
-      {/* Mobile Navigation */}
-      <AnimatePresence>
+
         {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
-            className={`sm:hidden overflow-hidden border-t shadow-lg ${
-              isDark ? 'bg-slate-950 border-slate-800' : 'bg-stone-50 border-stone-200'
-            }`}
-          >
-            <div className="px-4 py-4 space-y-2">
-              {links.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className={`block py-3 px-4 rounded-lg transition-all ${
-                    isDark
-                      ? 'text-slate-300 hover:text-slate-50 hover:bg-slate-900'
-                      : 'text-stone-700 hover:text-stone-900 hover:bg-stone-100'
-                  } ${
-                    isActiveLink(link.href)
-                      ? isDark
-                        ? 'text-slate-50 font-medium bg-slate-900'
-                        : 'text-stone-900 font-medium bg-stone-100'
-                      : ''
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-          </motion.div>
+          <div className="grid grid-cols-2 gap-px border-t rule mt-4 pt-4 md:hidden">
+            {links.map((link) => (
+              <Link key={link.href} href={link.href} onClick={() => setIsOpen(false)} className="flex gap-2 py-3 text-lg">
+                <span className="font-mono text-[10px] text-[var(--muted)]">{link.number}</span>
+                {link.label}
+              </Link>
+            ))}
+            <button onClick={toggleTheme} className="flex items-center gap-2 py-3 text-left text-lg">
+              {isDark ? <Sun size={17} /> : <Moon size={17} />} {isDark ? 'Light' : 'Dark'}
+            </button>
+          </div>
         )}
-      </AnimatePresence>
-    </nav>
+      </nav>
+    </header>
   );
 }

@@ -1,213 +1,62 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { Calendar, Filter } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useCallback } from 'react';
-import blogData from '../../../data/blog.json';
+import { ArrowUpRight } from 'lucide-react';
+import { useState } from 'react';
 import Navigation from '@/components/Navigation';
+import SiteFooter from '@/components/SiteFooter';
+import blogData from '../../../data/blog.json';
 
 export default function Blog() {
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-
-  const handleCategoryChange = useCallback((category: string) => {
-    console.log('Button clicked! Changing category to:', category);
-    setSelectedCategory(category);
-  }, []);
-
-  const filteredPosts = blogData.posts
-    .filter(post => {
-      if (selectedCategory === 'all') return true;
-      return post.category === selectedCategory;
-    })
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const categories = [{ id: 'all', name: 'All notes' }, ...blogData.categories];
+  const posts = [...blogData.posts]
+    .filter((post) => selectedCategory === 'all' || post.category === selectedCategory)
+    .sort((first, second) => new Date(second.date).getTime() - new Date(first.date).getTime());
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      {/* Navigation */}
-      <Navigation className="p-4 sm:p-6" />
-
-      {/* Main content */}
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-        {/* Hero section */}
-        <div className="text-center mb-16">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-stone-900 mb-6 relative"
-          >
-            My{' '}
-            <span className="relative inline-block">
-              <span className="relative z-10">Thoughts</span>
-              <div 
-                className="absolute -bottom-2 left-0 w-full h-4 bg-rose-300/60 -rotate-1 -z-10 highlight-permanent" 
-                style={{ 
-                  animation: 'none !important', 
-                  transition: 'none !important', 
-                  opacity: 1, 
-                  visibility: 'visible',
-                  display: 'block',
-                  position: 'absolute',
-                  bottom: '-0.5rem',
-                  left: 0,
-                  width: '100%',
-                  height: '1rem',
-                  backgroundColor: 'rgba(252, 165, 165, 0.6)',
-                  transform: 'rotate(-1deg)',
-                  zIndex: -10
-                }} 
-              />
-              <div 
-                className="absolute -bottom-1 left-1 w-full h-3 bg-purple-400/40 rotate-1 -z-10 highlight-permanent" 
-                style={{ 
-                  animation: 'none !important', 
-                  transition: 'none !important', 
-                  opacity: 1, 
-                  visibility: 'visible',
-                  display: 'block',
-                  position: 'absolute',
-                  bottom: '-0.25rem',
-                  left: '0.25rem',
-                  width: '100%',
-                  height: '0.75rem',
-                  backgroundColor: 'rgba(196, 181, 253, 0.4)',
-                  transform: 'rotate(1deg)',
-                  zIndex: -10
-                }} 
-              />
-            </span>
-          </motion.h1>
-          
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-lg sm:text-xl text-stone-700 max-w-3xl mx-auto leading-relaxed px-4 sm:px-0">
-            Random thoughts about technology, life, and honestly anything that I find cool :)
-          </motion.p>
-        </div>
-
-        {/* Filters */}
-        <div className="flex flex-wrap gap-4 justify-center mb-12 relative z-10">
-          <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 border border-gray-300">
-            <Filter className="w-4 h-4 text-gray-600" />
-            <span className="text-sm font-medium text-gray-700">Filter:</span>
+    <div className="min-h-screen">
+      <Navigation />
+      <main className="site-shell">
+        <header className="section-space grid gap-10 lg:grid-cols-12">
+          <div className="lg:col-span-8 lg:col-start-5">
+            <h1 className="display-type page-title">Some things<br /><em className="text-[var(--accent)]">I’ve been thinking about.</em></h1>
+            <p className="page-lede mt-8 max-w-2xl text-[var(--muted)] sm:mt-10">Mostly technology, projects, and experiences I wanted to remember. Updated whenever I feel like writing :)</p>
           </div>
-          
-          <button
-            onClick={() => handleCategoryChange('all')}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${
-              selectedCategory === 'all'
-                ? 'bg-blue-600 text-white shadow-lg'
-                : 'bg-white text-gray-700 hover:bg-blue-50 border border-gray-300'
-            }`}
-            type="button"
-          >
-            All Posts
-          </button>
-          
-          {blogData.categories.map((category) => (
-            <button
-              key={category.id}
-              onClick={() => handleCategoryChange(category.id)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer ${
-                selectedCategory === category.id
-                  ? 'bg-blue-600 text-white shadow-lg'
-                  : 'bg-white text-gray-700 hover:bg-blue-50 border border-gray-300'
-              }`}
-              type="button"
-            >
+        </header>
+
+        <div className="flex flex-wrap gap-x-6 gap-y-3 border-y rule py-4">
+          {categories.map((category) => (
+            <button key={category.id} onClick={() => setSelectedCategory(category.id)} className={`index-label border-b pb-1 ${selectedCategory === category.id ? 'border-[var(--accent)] text-[var(--accent)]' : 'border-transparent hover:text-[var(--ink)]'}`}>
               {category.name}
             </button>
           ))}
         </div>
 
-        {/* Blog posts */}
-        <div className="space-y-8">
-          {filteredPosts.map((post, index) => (
-            <Link href={`/blog/${post.id}`} key={post.id}>
-              <motion.article
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 * index }}
-                className="bg-stone-100 border-l-4 border-stone-300 p-4 sm:p-6 md:p-8 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 rotate-1 hover:rotate-0 cursor-pointer"
-                style={{
-                  borderLeftColor: post.category === 'technical' ? '#10B981' : '#EF4444'
-                }}
-              >
-              <div className="flex items-center gap-4 mb-4">
-                <span
-                  className={`px-3 py-1 rounded-full text-xs font-medium ${
-                    post.category === 'technical'
-                      ? 'bg-blue-100 text-blue-700'
-                      : 'bg-purple-100 text-purple-700'
-                  }`}
-                >
-                  {blogData.categories.find(c => c.id === post.category)?.name}
-                </span>
-                
-                <div className="flex items-center gap-2 text-gray-500 text-sm">
-                  <Calendar className="w-4 h-4" />
-                  {formatDate(post.date)}
+        <section className="py-10 sm:py-16">
+          {posts.map((post) => {
+            const category = blogData.categories.find((item) => item.id === post.category);
+            return (
+              <Link key={post.id} href={`/blog/${post.id}`} className="archive-row group grid gap-5 py-7 md:grid-cols-12 md:items-center">
+                <div className="md:col-span-6">
+                  <h2 className="display-type text-3xl leading-[1.02] sm:text-4xl">{post.title}</h2>
+                  <p className="index-label mt-3">{category?.name} / {post.readTime}</p>
                 </div>
-              </div>
-              
-              <h2 className="text-xl sm:text-2xl font-bold text-stone-900 mb-3 font-mono">
-                {post.title}
-              </h2>
-              
-              <p className="text-stone-700 mb-4 leading-relaxed text-sm sm:text-base">
-                {post.excerpt}
-              </p>
-              
-              <div className="flex flex-wrap gap-2 mb-4">
-                {post.tags.map((tag, tagIndex) => (
-                  <span
-                    key={tagIndex}
-                    className="bg-stone-200 text-stone-700 px-3 py-1 rounded-none text-xs border border-stone-300"
-                  >
-                    #{tag}
-                  </span>
-                ))}
-              </div>
-              
-              <div className="flex items-center justify-between">
-                <span className="text-stone-600 font-medium text-sm">
-                  Read more →
-                </span>
-                
-                <div className="text-xs text-stone-500 font-mono">
-                  {formatDate(post.date)}
+                <p className="text-sm leading-relaxed text-[var(--muted)] md:col-span-3">{post.excerpt}</p>
+                <div className="overflow-hidden bg-[var(--paper-deep)] md:col-span-2">
+                  {post.image && <Image src={post.image} alt="" width={360} height={240} className="archive-image aspect-[3/2] w-full object-cover" />}
                 </div>
-              </div>
-            </motion.article>
-            </Link>
-          ))}
-        </div>
-
-        {/* Empty state */}
-        {filteredPosts.length === 0 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center py-16"
-          >
-            <div className="text-gray-400 text-6xl mb-4">📝</div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No posts found</h3>
-            <p className="text-gray-600">Try adjusting your filters to see more posts.</p>
-          </motion.div>
-        )}
-
+                <div className="flex items-center justify-between md:col-span-1 md:block md:text-right">
+                  <span className="index-label whitespace-nowrap">{post.date}</span>
+                  <ArrowUpRight className="ml-auto mt-3 hidden group-hover:text-[var(--accent)] md:block" size={16} />
+                </div>
+              </Link>
+            );
+          })}
+        </section>
       </main>
+      <SiteFooter />
     </div>
   );
 }

@@ -1,238 +1,82 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { Mail, Github, Linkedin, Twitter, MapPin, Send } from 'lucide-react';
-import Navigation from '@/components/Navigation';
+import { ArrowUpRight } from 'lucide-react';
 import { useForm, ValidationError } from '@formspree/react';
+import Navigation from '@/components/Navigation';
+import SiteFooter from '@/components/SiteFooter';
 
 export default function Contact() {
-  const [state, handleSubmit] = useForm("xwpnyqvb");
+  const [state, handleSubmit] = useForm('xwpnyqvb');
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div className="min-h-screen">
+      <Navigation />
+      <main className="site-shell">
+        <header className="section-space grid gap-10 lg:grid-cols-12">
+          <div className="lg:col-span-8 lg:col-start-5">
+            <h1 className="display-type page-title">Say hi :)</h1>
+            <p className="page-lede mt-8 max-w-2xl text-[var(--muted)] sm:mt-10">Have an interesting idea, want to work together, or just feel like chatting? Send me a message.</p>
+          </div>
+        </header>
 
-      {/* Navigation */}
-      <Navigation className="relative z-10 p-6" />
+        <section className="grid gap-16 border-t rule py-16 sm:py-24 lg:grid-cols-12">
+          <aside className="space-y-10 lg:col-span-4">
+            <div>
+              <p className="text-sm font-medium mb-3">Email</p>
+              <a className="accent-link text-lg underline" href="mailto:arsharshj@gmail.com">arsharshj@gmail.com</a>
+            </div>
+            <div>
+              <p className="text-sm font-medium mb-3">Location</p>
+              <p>Palo Alto, California</p>
+            </div>
+            <div>
+              <p className="text-sm font-medium mb-3">Elsewhere</p>
+              <div className="flex flex-col items-start gap-2">
+                <a className="accent-link underline" href="https://github.com/arshjain08" target="_blank" rel="noreferrer">GitHub ↗</a>
+                <a className="accent-link underline" href="https://www.linkedin.com/in/arsh-jain08/" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+                <a className="accent-link underline" href="https://x.com/arshjain" target="_blank" rel="noreferrer">X ↗</a>
+              </div>
+            </div>
+          </aside>
 
-      {/* Main content */}
-      <main className="relative z-10 max-w-6xl mx-auto px-6 py-12">
-        {/* Hero section */}
-        <div className="text-center mb-16">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl md:text-6xl font-bold text-stone-900 mb-6 relative"
-          >
-            Let's{' '}
-            <span className="relative inline-block">
-              <span className="relative z-10">Connect</span>
-              <div className="absolute -bottom-2 left-0 w-full h-4 bg-blue-300/60 -rotate-1 -z-10 highlight-permanent" />
-              <div className="absolute -bottom-1 left-1 w-full h-3 bg-green-400/40 rotate-1 -z-10 highlight-permanent" />
-            </span>
-          </motion.h1>
-          
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-xl text-stone-700 max-w-3xl mx-auto leading-relaxed"
-          >
-            Have an interesting project? Want to collaborate? Or just want to say hi? 
-            I'd love to hear from you!
-          </motion.p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <h2 className="text-2xl font-bold text-stone-900 mb-8 relative">
-              <span className="relative z-10">Send me a message</span>
-              <div className="absolute -bottom-1 left-0 w-32 h-3 bg-amber-300/40 -rotate-1 -z-10 highlight-permanent" />
-            </h2>
-
+          <div className="lg:col-span-7 lg:col-start-6">
             {state.succeeded ? (
-              <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
-                <div className="text-green-600 text-4xl mb-4">✓</div>
-                <h3 className="text-lg font-bold text-green-900 mb-2">Message Sent Successfully!</h3>
-                <p className="text-green-700">Thanks for reaching out! I'll get back to you soon.</p>
+              <div className="border-y rule py-12">
+                <h2 className="display-type text-5xl">Thanks. I’ll be in touch.</h2>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-stone-700 mb-2">
-                    Name
+              <form onSubmit={handleSubmit} className="space-y-8">
+                <div className="grid gap-8 sm:grid-cols-2">
+                  <label className="block">
+                    <span className="text-sm">Your name</span>
+                    <input className="index-field" id="name" name="name" required placeholder="Name" />
+                    <ValidationError prefix="Name" field="name" errors={state.errors} />
                   </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    className="w-full px-4 py-3 bg-stone-100 border border-stone-300 rounded-none focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all text-stone-900 placeholder-stone-500"
-                    placeholder="Your name"
-                  />
-                  <ValidationError 
-                    prefix="Name" 
-                    field="name"
-                    errors={state.errors}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-stone-700 mb-2">
-                    Email
+                  <label className="block">
+                    <span className="text-sm">Your email</span>
+                    <input className="index-field" id="email" name="email" type="email" required placeholder="Email address" />
+                    <ValidationError prefix="Email" field="email" errors={state.errors} />
                   </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    className="w-full px-4 py-3 bg-stone-100 border border-stone-300 rounded-none focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all text-stone-900 placeholder-stone-500"
-                    placeholder="your.email@example.com"
-                  />
-                  <ValidationError 
-                    prefix="Email" 
-                    field="email"
-                    errors={state.errors}
-                  />
                 </div>
-              </div>
-
-              <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-stone-700 mb-2">
-                  Subject
+                <label className="block">
+                  <span className="text-sm">Subject</span>
+                  <input className="index-field" id="subject" name="subject" required placeholder="What’s this about?" />
+                  <ValidationError prefix="Subject" field="subject" errors={state.errors} />
                 </label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  required
-                  className="w-full px-4 py-3 bg-stone-100 border border-stone-300 rounded-none focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all text-stone-900 placeholder-stone-500"
-                  placeholder="What's this about?"
-                />
-                <ValidationError 
-                  prefix="Subject" 
-                  field="subject"
-                  errors={state.errors}
-                />
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-stone-700 mb-2">
-                  Message
+                <label className="block">
+                  <span className="text-sm">Message</span>
+                  <textarea className="index-field min-h-40 resize-y" id="message" name="message" required placeholder="Tell me more." />
+                  <ValidationError prefix="Message" field="message" errors={state.errors} />
                 </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  required
-                  rows={6}
-                  className="w-full px-4 py-3 bg-stone-100 border border-stone-300 rounded-none focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition-all resize-none text-stone-900 placeholder-stone-500"
-                  placeholder="Tell me about your project, idea, or just say hello..."
-                />
-                <ValidationError 
-                  prefix="Message" 
-                  field="message"
-                  errors={state.errors}
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={state.submitting}
-                className={`inline-flex items-center gap-2 px-8 py-4 rounded-none transition-colors transform hover:scale-105 font-medium ${
-                  state.submitting 
-                    ? 'bg-stone-400 text-stone-200 cursor-not-allowed' 
-                    : 'bg-stone-900 text-stone-50 hover:bg-stone-800'
-                }`}
-              >
-                <Send className="w-4 h-4" />
-                {state.submitting ? 'Sending...' : 'Send Message'}
-              </button>
-            </form>
+                <button type="submit" disabled={state.submitting} className="index-button disabled:opacity-40">
+                  {state.submitting ? 'Sending…' : 'Send message'} <ArrowUpRight size={16} />
+                </button>
+              </form>
             )}
-          </motion.div>
-
-          {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="space-y-8"
-          >
-            <div>
-              <h2 className="text-2xl font-bold text-stone-900 mb-8 relative">
-                <span className="relative z-10">Other ways to reach me</span>
-                <div className="absolute -bottom-1 left-0 w-40 h-3 bg-emerald-300/40 -rotate-1 -z-10 highlight-permanent" />
-              </h2>
-            </div>
-
-            <div className="space-y-6">
-              <div className="bg-stone-100 border-l-4 border-blue-400 p-6 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 rotate-1 hover:rotate-0">
-                <div className="flex items-center gap-4 mb-4">
-                  <Mail className="w-6 h-6 text-stone-700" />
-                  <h3 className="text-lg font-bold text-stone-900 font-mono">Email</h3>
-                </div>
-                <p className="text-stone-700 mb-2">For professional inquiries and collaborations</p>
-                <a 
-                  href="mailto:arsharshj@gmail.com" 
-                  className="text-blue-600 hover:text-blue-800 transition-colors font-medium"
-                >
-                  arsharshj@gmail.com
-                </a>
-              </div>
-
-              <div className="bg-stone-100 border-l-4 border-emerald-500 p-6 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 -rotate-1 hover:rotate-0">
-                <div className="flex items-center gap-4 mb-4">
-                  <MapPin className="w-6 h-6 text-stone-700" />
-                  <h3 className="text-lg font-bold text-stone-900 font-mono">Location</h3>
-                </div>
-                <p className="text-stone-700 mb-2">Currently based in</p>
-                <p className="text-stone-800 font-medium">Palo Alto, CA</p>
-              </div>
-
-              <div className="bg-stone-100 border-l-4 border-rose-400 p-6 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 rotate-1 hover:rotate-0">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-6 h-6 text-stone-700">🌐</div>
-                  <h3 className="text-lg font-bold text-stone-900 font-mono">Social</h3>
-                </div>
-                <p className="text-stone-700 mb-4">Find me on these platforms</p>
-                <div className="flex gap-4">
-                  <a 
-                    href="https://github.com/arshjain08" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-stone-600 hover:text-stone-900 transition-colors"
-                  >
-                    <Github className="w-5 h-5" />
-                  </a>
-                  <a 
-                    href="https://www.linkedin.com/in/arsh-jain08/" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-stone-600 hover:text-stone-900 transition-colors"
-                  >
-                    <Linkedin className="w-5 h-5" />
-                  </a>
-                  <a 
-                    href="https://x.com/ArshJain08" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-stone-600 hover:text-stone-900 transition-colors"
-                  >
-                    <Twitter className="w-5 h-5" />
-                  </a>
-                </div>
-              </div>
-            </div>
-
-          </motion.div>
-        </div>
-
+          </div>
+        </section>
       </main>
+      <SiteFooter />
     </div>
   );
 }

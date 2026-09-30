@@ -1,60 +1,23 @@
-'use client';
-
-import { useTheme } from '@/components/ThemeProvider';
-
 export default function ThemeBackground() {
-  const { isDark } = useTheme();
-
   return (
-    <div className="fixed inset-0 pointer-events-none z-0">
-      {/* Subtle paper texture */}
-      <div className={`absolute inset-0 ${isDark ? 'opacity-10' : 'opacity-30'}`}>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_1px_1px,rgba(120,119,198,0.1)_1px,transparent_0)] bg-[length:20px_20px]" />
-      </div>
-
-      {/* Space backdrop */}
-      <div className="absolute inset-0">
-        <div
-          className={`absolute inset-0 ${
-            isDark
-              ? 'bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.15),transparent_40%),radial-gradient(circle_at_80%_30%,rgba(139,92,246,0.18),transparent_45%),radial-gradient(circle_at_50%_80%,rgba(16,185,129,0.12),transparent_55%)]'
-              : 'bg-[radial-gradient(circle_at_20%_20%,rgba(59,130,246,0.08),transparent_35%),radial-gradient(circle_at_80%_30%,rgba(139,92,246,0.08),transparent_40%),radial-gradient(circle_at_50%_80%,rgba(16,185,129,0.06),transparent_45%)]'
-          }`}
-        />
-        <div
-          className={`absolute inset-0 ${
-            isDark ? 'opacity-70' : 'opacity-40'
-          } bg-[radial-gradient(circle_at_1px_1px,rgba(148,163,184,0.35)_1px,transparent_0)] bg-[length:40px_40px]`}
-        />
-        <div
-          className={`absolute inset-0 ${
-            isDark ? 'opacity-60' : 'opacity-25'
-          } bg-[radial-gradient(circle_at_2px_2px,rgba(226,232,240,0.5)_1px,transparent_0)] bg-[length:90px_90px]`}
-        />
-
-        {/* Sun / Moon glow */}
-        <div
-          className={`absolute -top-24 -left-24 w-64 h-64 rounded-full blur-2xl ${
-            isDark
-              ? 'bg-[radial-gradient(circle,rgba(148,163,184,0.35),transparent_65%)]'
-              : 'bg-[radial-gradient(circle,rgba(253,224,71,0.45),transparent_65%)]'
-          }`}
-        />
-        <div
-          className={`absolute top-10 left-10 w-28 h-28 rounded-full shadow-2xl ${
-            isDark
-              ? 'bg-gradient-to-br from-slate-200 to-slate-500'
-              : 'bg-gradient-to-br from-yellow-200 to-amber-400'
-          }`}
-        />
-
-        {/* Planets */}
-        <div className="absolute top-24 right-24 w-20 h-20 rounded-full bg-gradient-to-br from-emerald-300/70 to-teal-600/80 shadow-lg" />
-        <div className="absolute bottom-24 left-16 w-24 h-24 rounded-full bg-gradient-to-br from-violet-300/70 to-fuchsia-600/80 shadow-lg" />
-        <div className="absolute bottom-32 right-40 w-16 h-16 rounded-full bg-gradient-to-br from-sky-300/70 to-blue-600/80 shadow-lg" />
-        <div className="absolute bottom-36 right-32 w-28 h-6 rounded-full border border-white/30 opacity-70 rotate-[-12deg]" />
-      </div>
+    <div aria-hidden="true" className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+      <div className="absolute inset-0 opacity-[0.28] [background-image:radial-gradient(circle_at_18%_24%,var(--ink)_0_0.7px,transparent_1px),radial-gradient(circle_at_76%_18%,var(--ink)_0_0.8px,transparent_1.1px),radial-gradient(circle_at_64%_72%,var(--ink)_0_0.6px,transparent_1px),radial-gradient(circle_at_28%_82%,var(--ink)_0_0.75px,transparent_1px)] [background-size:137px_137px,193px_193px,157px_157px,223px_223px]" />
+      <div className="absolute -right-[22rem] top-[12vh] h-[48rem] w-[48rem] rounded-full border border-[var(--line)] opacity-35" />
+      <div className="absolute -right-[12rem] top-[22vh] h-[28rem] w-[28rem] rounded-full border border-[var(--line)] opacity-20" />
+      <svg
+        viewBox="0 0 160 160"
+        className="rocket-drift absolute right-[8vw] top-[31vh] hidden w-32 rotate-[8deg] text-[var(--ink)] opacity-80 md:block lg:right-[10vw] lg:w-40"
+      >
+        <path d="M57 105C68 76 85 50 112 31c5 29-4 58-28 81L57 105Z" fill="var(--paper-deep)" stroke="var(--accent)" strokeWidth="2" />
+        <path d="M63 91 43 94l-10 24 25-11" fill="var(--paper-deep)" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+        <path d="m80 109-2 23 21-14-5-18" fill="var(--paper-deep)" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+        <circle cx="89" cy="64" r="8" fill="none" stroke="currentColor" strokeWidth="2" />
+        <circle cx="89" cy="64" r="3" fill="var(--accent)" opacity="0.8" />
+        <path d="M54 109c-8 8-14 16-18 25 9-4 17-10 24-18M48 106c-7 3-13 8-18 14" fill="none" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" />
+        <path d="m122 43 2.5 5 5.5 2.5-5.5 2.5-2.5 5-2.5-5-5.5-2.5 5.5-2.5 2.5-5ZM42 54l1.5 3.5L47 59l-3.5 1.5L42 64l-1.5-3.5L37 59l3.5-1.5L42 54Z" fill="var(--ink)" opacity="0.7" />
+      </svg>
+      <div className="absolute left-[7vw] top-[28vh] h-1 w-1 rounded-full bg-[var(--accent)] shadow-[0_0_18px_var(--accent)]" />
+      <div className="absolute bottom-[18vh] right-[18vw] h-1.5 w-1.5 rounded-full bg-[var(--ink)] shadow-[0_0_14px_var(--ink)] opacity-70" />
     </div>
   );
 }
-

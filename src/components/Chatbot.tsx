@@ -1,77 +1,31 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { X, Send, Maximize2, Minimize2, Sparkles } from 'lucide-react';
-import { useState, useRef, useEffect } from 'react';
+import { ArrowUp, MessageSquare, X } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 
 interface Message {
   id: string;
   text: string;
   sender: 'user' | 'bot';
-  timestamp: Date;
 }
-
-// Enhanced liquid glass hook with more sophisticated effects
-const useLiquidGlass = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  
-  useEffect(() => {
-    if (containerRef.current) {
-      const element = containerRef.current;
-      // Enhanced liquid glass with multiple layers
-      element.style.backdropFilter = 'blur(25px) saturate(180%) contrast(120%) brightness(110%)';
-      element.style.backgroundColor = 'rgba(0, 0, 0, 0.15)';
-      element.style.border = '1px solid rgba(255, 255, 255, 0.2)';
-      element.style.borderTop = '1px solid rgba(255, 255, 255, 0.3)';
-      element.style.borderLeft = '1px solid rgba(255, 255, 255, 0.25)';
-      element.style.boxShadow = `
-        0 8px 32px rgba(0, 0, 0, 0.4),
-        0 2px 8px rgba(0, 0, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.15),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.1),
-        inset 1px 0 0 rgba(255, 255, 255, 0.1),
-        inset -1px 0 0 rgba(0, 0, 0, 0.05)
-      `;
-    }
-  }, []);
-
-  return containerRef;
-};
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isFullScreen, setIsFullScreen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      text: "Hi! I'm the Arsh Hype Bot! Ask me anything about him and I'll hype him up! 😎",
-      sender: 'bot',
-      timestamp: new Date()
-    }
-  ]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const liquidGlassRef = useLiquidGlass();
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [messages, setMessages] = useState<Message[]>([
+    { id: 'intro', text: 'Welcome to the Arsh appreciation zone 😎 Ask me anything about this absolute legend.', sender: 'bot' },
+  ]);
+  const endRef = useRef<HTMLDivElement>(null);
 
-  // Auto scroll to bottom when new messages arrive
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+    endRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, isLoading]);
 
-  // Update message sending logic to call GPT API
-  const handleSendMessage = async () => {
-    if (!inputValue.trim() || isLoading) return;
-
-    const currentInput = inputValue;
-
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      text: currentInput,
-      sender: 'user',
-      timestamp: new Date(),
-    };
-    setMessages(prev => [...prev, userMessage]);
+  const sendMessage = async () => {
+    const message = inputValue.trim();
+    if (!message || isLoading) return;
+    setMessages((current) => [...current, { id: `${Date.now()}-user`, text: message, sender: 'user' }]);
     setInputValue('');
     setIsLoading(true);
 
@@ -79,203 +33,67 @@ export default function Chatbot() {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: currentInput }),
+        body: JSON.stringify({ message }),
       });
-
-      if (!response.ok) {
-        const maybeJson = await response.json().catch(() => ({}));
-        const errorText = maybeJson.error || `Request failed (${response.status})`;
-        const errorMessage: Message = {
-          id: (Date.now() + 2).toString(),
-          text: `Error: ${errorText}`,
-          sender: 'bot',
-          timestamp: new Date(),
-        };
-        setMessages(prev => [...prev, errorMessage]);
-        return;
-      }
-
       const data = await response.json();
-      if (typeof window !== 'undefined') {
-        console.info('Chat model used:', data?.model);
-      }
-      const botMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        text: data.text,
+      setMessages((current) => [...current, {
+        id: `${Date.now()}-bot`,
+        text: response.ok ? data.text : data.error || 'The archive is unavailable right now.',
         sender: 'bot',
-        timestamp: new Date(),
-      };
-      setMessages(prev => [...prev, botMessage]);
-    } catch (error) {
-      console.error('Error fetching GPT response:', error);
-      const errorMessage: Message = {
-        id: (Date.now() + 3).toString(),
-        text: 'Sorry, I ran into a problem contacting the model. Please try again.',
-        sender: 'bot',
-        timestamp: new Date(),
-      };
-      setMessages(prev => [...prev, errorMessage]);
+      }]);
+    } catch {
+      setMessages((current) => [...current, { id: `${Date.now()}-error`, text: 'The archive is unavailable right now.', sender: 'bot' }]);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleSendMessage();
-    }
-  };
-
-  // Floating Action Button when collapsed
   if (!isOpen) {
     return (
-      <div className="fixed bottom-8 right-8 z-50">
-        <motion.button
-          onClick={() => setIsOpen(true)}
-          className="group relative w-16 h-16 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          style={{
-            boxShadow: '0 8px 32px rgba(251, 191, 36, 0.4), 0 4px 16px rgba(0, 0, 0, 0.2)'
-          }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-orange-600 rounded-full blur opacity-50 group-hover:opacity-75 transition-opacity"></div>
-          <Sparkles className="relative w-8 h-8 text-white" />
-          
-          {/* Pulse indicator */}
-          <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white animate-pulse"></div>
-        </motion.button>
-      </div>
+      <button
+        onClick={() => setIsOpen(true)}
+        className="fixed bottom-4 right-4 z-50 flex items-center gap-2 border border-[var(--ink)] bg-[var(--paper)] px-3 py-2 text-xs font-medium shadow-[4px_4px_0_var(--ink)] transition-transform hover:-translate-y-0.5 sm:bottom-6 sm:right-6"
+      >
+        <MessageSquare size={15} /> Ask the GlazeBot
+      </button>
     );
   }
 
   return (
-    <div className={`fixed z-50 transition-all duration-500 ${
-      isFullScreen 
-        ? 'inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm' 
-        : 'bottom-8 right-8'
-    }`}>
-      <motion.div
-        ref={liquidGlassRef}
-        initial={{ opacity: 0, y: 20, scale: 0.9 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: 20, scale: 0.9 }}
-        transition={{ duration: 0.5 }}
-        className={`relative backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 transition-all duration-500 flex flex-col ${
-          isFullScreen 
-            ? 'w-[80vw] h-[80vh] max-w-6xl max-h-[900px]' 
-            : 'w-96 h-[500px]'
-        }`}
-        style={{
-          background: 'rgba(55, 65, 81, 0.95)', // Consistent dark grey for both sizes
-          backdropFilter: 'blur(25px) saturate(180%) contrast(120%) brightness(110%)',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
-          boxShadow: `
-            0 20px 64px rgba(0, 0, 0, 0.4),
-            0 8px 32px rgba(0, 0, 0, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.15),
-            inset 0 -1px 0 rgba(0, 0, 0, 0.1)
-          `,
-        }}
-      >
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-white/10">
-          <div className="flex items-center space-x-3">
-            <div className="relative">
-              <div className="w-10 h-10 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full flex items-center justify-center shadow-lg">
-                <Sparkles className="w-5 h-5 text-white" />
-              </div>
-              <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white animate-pulse"></div>
-            </div>
-            <div>
-              <h3 className="text-white font-semibold text-lg">Arsh Hype Bot</h3>
-              <p className="text-white/70 text-sm">Ready to chat! ✨</p>
-            </div>
-          </div>
-          <div className="flex items-center space-x-2">
-            <button
-              onClick={() => setIsFullScreen(!isFullScreen)}
-              className="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-xl transition-all"
-            >
-              {isFullScreen ? <Minimize2 className="w-5 h-5" /> : <Maximize2 className="w-5 h-5" />}
-            </button>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-xl transition-all"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
+    <section className="fixed bottom-4 right-4 z-50 flex h-[min(520px,calc(100dvh-2rem))] w-[min(390px,calc(100vw-2rem))] flex-col border border-[var(--ink)] bg-[var(--paper)] shadow-[6px_6px_0_var(--ink)] sm:bottom-6 sm:right-6 sm:shadow-[8px_8px_0_var(--ink)]">
+      <header className="flex items-center justify-between border-b rule px-4 py-3">
+        <div>
+          <p className="text-xs text-[var(--muted)]">Unbiased reporting*</p>
+          <h2 className="text-sm font-semibold">Arsh GlazeBot</h2>
         </div>
+        <button onClick={() => setIsOpen(false)} aria-label="Close chat"><X size={18} /></button>
+      </header>
 
-        {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-4 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
-          {messages.map((message) => (
-            <motion.div
-              key={message.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-            >
-              <div
-                className={`max-w-sm lg:max-w-md px-4 py-3 ${
-                  message.sender === 'user'
-                    ? 'bg-gradient-to-r from-amber-400 to-orange-400 text-black rounded-2xl rounded-br-lg shadow-xl'
-                    : 'bg-white/10 backdrop-blur-sm text-white rounded-2xl rounded-bl-lg border border-white/20 shadow-xl'
-                }`}
-              >
-                <p className="text-sm leading-relaxed">{message.text}</p>
-                <p className="text-xs opacity-70 mt-1">
-                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-
-          {isLoading && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex justify-start"
-            >
-              <div className="bg-white/10 backdrop-blur-sm text-white px-4 py-3 rounded-2xl rounded-bl-lg border border-white/20 shadow-xl">
-                <div className="flex items-center space-x-2">
-                  <Sparkles className="w-4 h-4 text-amber-400" />
-                  <div className="flex space-x-1">
-                    <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="w-2 h-2 bg-amber-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
-          
-          <div ref={messagesEndRef} />
-        </div>
-
-        {/* Input */}
-        <div className="p-6 border-t border-white/10">
-          <div className="flex space-x-3">
-            <input
-              type="text"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Ask about Arsh's amazing achievements..."
-              className="flex-1 bg-white/10 text-white rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400/50 backdrop-blur-sm border border-white/20 placeholder-white/50"
-            />
-            <button
-              onClick={handleSendMessage}
-              disabled={!inputValue.trim() || isLoading}
-              className="px-4 py-3 bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-2xl transition-all shadow-lg flex items-center justify-center"
-            >
-              <Send className="w-5 h-5 text-white" />
-            </button>
+      <div className="flex-1 space-y-5 overflow-y-auto p-4 text-sm">
+        {messages.map((message) => (
+          <div key={message.id} className={message.sender === 'user' ? 'ml-10' : 'mr-8'}>
+            <p className="mb-1 text-xs text-[var(--muted)]">{message.sender === 'user' ? 'You' : 'Assistant'}</p>
+            <p className={message.sender === 'user' ? 'border-l-2 border-[var(--accent)] pl-3' : 'font-serif text-base leading-relaxed'}>{message.text}</p>
           </div>
+        ))}
+        {isLoading && <p className="text-xs text-[var(--muted)] animate-pulse">Thinking…</p>}
+        <div ref={endRef} />
+      </div>
+
+      <div className="border-t rule p-3">
+        <div className="flex items-end gap-2">
+          <input
+            value={inputValue}
+            onChange={(event) => setInputValue(event.target.value)}
+            onKeyDown={(event) => event.key === 'Enter' && sendMessage()}
+            placeholder="What are you looking for?"
+            className="index-field flex-1 text-sm"
+          />
+          <button onClick={sendMessage} disabled={!inputValue.trim() || isLoading} className="grid h-10 w-10 place-items-center bg-[var(--ink)] text-[var(--paper)] disabled:opacity-30" aria-label="Send message">
+            <ArrowUp size={17} />
+          </button>
         </div>
-      </motion.div>
-    </div>
+      </div>
+    </section>
   );
 }

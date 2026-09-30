@@ -1,118 +1,102 @@
-'use client';
-
-import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
 import Navigation from '@/components/Navigation';
+import SiteFooter from '@/components/SiteFooter';
+import projectsData from '../../data/projects.json';
+import blogData from '../../data/blog.json';
+import { getProjectTldr } from '@/utils/projectTldrs';
 
 export default function Home() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  const selectedProjects = projectsData.projects.filter((project) => project.featured).slice(0, 4);
+  const recentPosts = [...blogData.posts]
+    .sort((first, second) => new Date(second.date).getTime() - new Date(first.date).getTime())
+    .slice(0, 3);
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      {/* Floating geometric shapes */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div 
-          className="absolute w-4 h-4 bg-amber-400/60 rotate-45 transition-all duration-[3s] ease-out"
-          style={{
-            left: mousePosition.x * 0.1 + 200,
-            top: mousePosition.y * 0.1 + 100,
-          }}
-        />
-        <div className="absolute top-1/4 right-1/4 w-6 h-6 border-2 border-emerald-600/40 rounded-full animate-bounce" style={{ animationDuration: '4s' }} />
-        <div
-          className="absolute top-1/3 left-1/3 w-2 h-2 rounded-full bg-slate-400/50 animate-pulse"
-          style={{ animationDuration: '3.5s' }}
-        />
-      </div>
+    <div className="min-h-screen">
+      <Navigation />
 
-      {/* Navigation */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="relative z-10 p-4 sm:p-6"
-      >
-        <Navigation />
-      </motion.div>
+      <main className="site-shell">
+        <section className="home-hero grid gap-12 py-10 sm:gap-16 sm:py-14 lg:min-h-[min(700px,calc(100svh-90px))] lg:grid-cols-12 lg:content-between lg:py-16">
+          <div className="lg:col-span-9">
+            <h1 className="display-type page-title max-w-4xl">
+              hey! i&apos;m arsh!
+              <span className="mt-[0.28em] block w-fit whitespace-nowrap text-[0.72em] sm:text-[0.78em]">（＾－＾）</span>
+            </h1>
+          </div>
 
-      {/* Main content */}
-      <main className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-20">
-        <div className="text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-6"
-          >
-            <div className="inline-block relative mb-8">
-            <span
-            className="text-sm font-medium px-4 py-2 rounded-full border text-stone-600 bg-stone-100 border-stone-200"
-            >
-                Welcome to my galaxy of thoughts
-              </span>
-            <div className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-400 rounded-full animate-pulse" />
+          <div className="grid gap-8 border-t rule pt-5 sm:grid-cols-2 lg:col-span-12 lg:grid-cols-12">
+            <p className="max-w-xl text-lg font-medium leading-relaxed tracking-[0.03em] sm:text-xl lg:col-span-6">
+              i train ai/llms, take photos, (try to) make music, and build software. currently at spacexai working on grok imagine modeling.
+            </p>
+            <div className="space-y-2 text-sm text-[var(--muted)] lg:col-span-3 lg:col-start-9">
+              <p className="text-xs uppercase tracking-wider">Right now</p>
+              <p>Palo Alto, California</p>
             </div>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-stone-900 mb-6 relative"
-          >
-            Hi, I'm{' '}
-            <span className="relative inline-block">
-              <span className="relative z-10">Arsh</span>
-              <div className="absolute -bottom-2 left-0 w-full h-4 bg-amber-300/60 -rotate-1 -z-10 highlight-permanent" />
-              <div className="absolute -bottom-1 left-1 w-full h-3 bg-emerald-400/40 rotate-1 -z-10 highlight-permanent" />
-            </span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg sm:text-xl md:text-2xl text-stone-700 mb-8 max-w-3xl mx-auto leading-relaxed px-4"
-          >
-            Member of Technical Staff at xAI
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-          >
-            <Link
-              href="/about"
-            className="group inline-flex items-center gap-2 bg-stone-900 text-stone-50 px-8 py-4 rounded-none skew-x-[-2deg] hover:skew-x-0 transition-all duration-300 transform hover:scale-105 shadow-lg"
-            >
-              <span className="skew-x-[2deg]">Get to know me</span>
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 skew-x-[2deg]" />
+            <Link href="/about" className="group flex items-start justify-between text-sm lg:col-span-2">
+              More about me <ArrowDownRight className="transition-transform group-hover:translate-x-1 group-hover:translate-y-1" size={18} />
             </Link>
-            
-            <Link
-              href="/projects"
-              className="group inline-flex items-center gap-2 bg-amber-400 text-stone-900 px-8 py-4 rounded-none rotate-1 hover:rotate-0 transition-all duration-300 transform hover:scale-105 shadow-lg font-medium"
-            >
-              <span>View my work</span>
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </Link>
-          </motion.div>
-        </div>
+          </div>
+        </section>
 
+        <section className="section-space">
+          <div className="mb-10 flex items-end justify-between border-b rule pb-4">
+            <div>
+              <h2 className="display-type section-title">Some things I’ve built</h2>
+            </div>
+            <Link href="/projects" className="hidden items-center gap-2 text-sm hover:text-[var(--accent)] sm:flex">Full archive <ArrowUpRight size={15} /></Link>
+          </div>
+
+          <div>
+            {selectedProjects.map((project) => (
+              <Link key={project.id} href={`/projects/${project.id}`} className="archive-row group grid gap-5 py-6 md:grid-cols-12 md:items-center">
+                <div className="md:col-span-6">
+                  <h3 className="display-type text-3xl leading-none sm:text-4xl">{project.title}</h3>
+                </div>
+                <p className="text-sm leading-relaxed text-[var(--muted)] md:col-span-4">{getProjectTldr(project.id)}</p>
+                <div className="overflow-hidden bg-[var(--paper-deep)] md:col-span-2">
+                  {project.image && <Image src={project.image} alt="" width={360} height={220} className="archive-image aspect-[3/2] h-full w-full object-cover" />}
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="section-space grid gap-12 lg:grid-cols-12">
+          <div className="lg:col-span-4">
+            <h2 className="display-type section-title">Things I’ve written</h2>
+            <p className="mt-6 max-w-sm leading-relaxed text-[var(--muted)]">Mostly technology, hackathons, and whatever else I can’t stop thinking about.</p>
+          </div>
+          <div className="lg:col-span-7 lg:col-start-6">
+            {recentPosts.map((post) => (
+              <Link key={post.id} href={`/blog/${post.id}`} className="archive-row group grid gap-3 py-6 sm:grid-cols-[1fr_auto]">
+                <div>
+                  <h3 className="text-xl font-medium tracking-tight sm:text-2xl">{post.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">{post.excerpt}</p>
+                </div>
+                <span className="index-label whitespace-nowrap">{post.date}</span>
+              </Link>
+            ))}
+            <Link href="/blog" className="mt-8 inline-flex items-center gap-2 text-sm hover:text-[var(--accent)]">Browse all notes <ArrowUpRight size={15} /></Link>
+          </div>
+        </section>
+
+        <section className="section-space grid items-end gap-8 border-t rule lg:grid-cols-12">
+          <div className="lg:col-span-5">
+            <div className="aspect-[4/5] overflow-hidden bg-[var(--paper-deep)]">
+              <Image src="/images/arsh-2.JPG" alt="Arsh Jain" width={900} height={1125} className="h-full w-full object-cover grayscale-[20%]" />
+            </div>
+          </div>
+          <div className="lg:col-span-6 lg:col-start-7">
+            <p className="display-type section-title">I do other stuff too :)</p>
+            <p className="mt-7 max-w-lg text-lg leading-relaxed text-[var(--muted)]">Photography, board games, music, mechanical keyboards, travel, and the occasional project that begins as a bad idea at a hackathon.</p>
+            <Link href="/about" className="index-button mt-8">A little more about me <ArrowUpRight size={16} /></Link>
+          </div>
+        </section>
       </main>
+
+      <SiteFooter />
     </div>
   );
 }

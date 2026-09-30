@@ -13,24 +13,23 @@ interface ThemeContextValue {
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('light');
+  const [theme, setTheme] = useState<Theme>('dark');
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const storedTheme = window.localStorage.getItem('theme');
+    const storedTheme = window.localStorage.getItem('space-theme');
     if (storedTheme === 'light' || storedTheme === 'dark') {
       setTheme(storedTheme);
       return;
     }
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    setTheme(prefersDark ? 'dark' : 'light');
+    setTheme('dark');
   }, []);
 
   useEffect(() => {
     if (typeof document === 'undefined') return;
     document.documentElement.dataset.theme = theme;
     document.documentElement.style.colorScheme = theme;
-    window.localStorage.setItem('theme', theme);
+    window.localStorage.setItem('space-theme', theme);
   }, [theme]);
 
   const value = useMemo(
@@ -52,4 +51,3 @@ export function useTheme() {
   }
   return context;
 }
-

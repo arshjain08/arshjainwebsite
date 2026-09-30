@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Arsh Jain",
-  description: "Personal Website of Arsh Jain",
+  description: "Arsh Jain's personal site — machine learning, software, projects, and writing.",
 };
 
 export default function RootLayout({
