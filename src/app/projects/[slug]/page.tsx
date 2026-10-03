@@ -32,7 +32,6 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const project = projectsData.projects.find((item) => item.id === slug) as Project | undefined;
   if (!project) notFound();
 
-  const category = projectsData.categories.find((item) => item.id === project.category);
   const markdownPath = path.join(process.cwd(), 'content', 'projects', `${slug}.md`);
   const markdown = fs.existsSync(markdownPath)
     ? matter(fs.readFileSync(markdownPath, 'utf8')).content.replace(/^# .+\n\n?/m, '').trim()
@@ -54,10 +53,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         </div>
 
         <header className="grid gap-8 border-t rule py-10 sm:py-14 lg:grid-cols-12 lg:py-20">
-          <div className="lg:col-span-3">
-            <p className="text-sm text-[var(--muted)]">{category?.name}<br />{project.status}<br />{project.featured ? 'Selected work' : 'Archive entry'}</p>
-          </div>
-          <div className="lg:col-span-9">
+          <div className="lg:col-span-9 lg:col-start-4">
             <h1 className="display-type detail-title max-w-5xl">{project.title}</h1>
             <p className="page-lede mt-8 max-w-3xl text-[var(--muted)] sm:mt-10">{getProjectTldr(project.id)}</p>
             {links.length > 0 && (
@@ -80,14 +76,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           </figure>
         )}
 
-        <section className="section-space grid gap-12 lg:grid-cols-12">
-          <aside className="lg:col-span-3">
-            <p className="text-sm font-medium mb-5">Built with</p>
-            <ul className="border-t rule">
-              {project.tech.map((technology) => <li key={technology} className="border-b rule py-2.5 text-sm">{technology}</li>)}
-            </ul>
-          </aside>
-          <article className="prose-index lg:col-span-7 lg:col-start-5">
+        <section className="section-space grid lg:grid-cols-12">
+          <article className="prose-index lg:col-span-7 lg:col-start-4">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>
           </article>
         </section>

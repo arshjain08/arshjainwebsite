@@ -1,18 +1,13 @@
-'use client';
-
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
-import { useState } from 'react';
 import Navigation from '@/components/Navigation';
 import SiteFooter from '@/components/SiteFooter';
 import projectsData from '../../../data/projects.json';
 import { getProjectTldr } from '@/utils/projectTldrs';
 
 export default function Projects() {
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const categories = [{ id: 'all', name: 'All work' }, ...projectsData.categories];
-  const projects = projectsData.projects.filter((project) => selectedCategory === 'all' || project.category === selectedCategory);
+  const projects = projectsData.projects;
 
   return (
     <div className="min-h-screen">
@@ -25,27 +20,16 @@ export default function Projects() {
           </div>
         </header>
 
-        <div className="flex flex-wrap gap-x-6 gap-y-3 border-y rule py-4">
-          {categories.map((category) => (
-            <button key={category.id} onClick={() => setSelectedCategory(category.id)} className={`index-label border-b pb-1 ${selectedCategory === category.id ? 'border-[var(--accent)] text-[var(--accent)]' : 'border-transparent hover:text-[var(--ink)]'}`}>
-              {category.name}
-            </button>
-          ))}
-        </div>
-
-        <section className="py-10 sm:py-16">
+        <section className="border-t rule py-10 sm:py-16">
           {projects.map((project) => {
-            const category = projectsData.categories.find((item) => item.id === project.category);
             return (
               <Link key={project.id} href={`/projects/${project.id}`} className="archive-row group grid gap-5 py-7 md:grid-cols-12 md:items-center">
                 <div className="md:col-span-5">
                   <h2 className="display-type text-3xl leading-[1.02] sm:text-4xl">{project.title}</h2>
-                  <p className="index-label mt-3">{category?.name} / {project.status}</p>
                 </div>
                 <p className="text-sm leading-relaxed text-[var(--muted)] md:col-span-4">{getProjectTldr(project.id)}</p>
-                <div className="relative overflow-hidden bg-[var(--paper-deep)] md:col-span-3">
+                <div className="overflow-hidden bg-[var(--paper-deep)] md:col-span-3">
                   {project.image && <Image src={project.image} alt="" width={480} height={300} className="archive-image aspect-[8/5] w-full object-cover" />}
-                  {project.featured && <span className="absolute right-2 top-2 hidden bg-[var(--accent)] px-2 py-1 font-mono text-[9px] uppercase tracking-wider text-white md:block">Selected</span>}
                 </div>
               </Link>
             );
