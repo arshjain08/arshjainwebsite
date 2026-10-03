@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import SiteFooter from '@/components/SiteFooter';
+import TransmutationIntro from '@/components/TransmutationIntro';
 import projectsData from '../../data/projects.json';
 import blogData from '../../data/blog.json';
 import { getProjectTldr } from '@/utils/projectTldrs';
@@ -15,6 +16,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
+      <TransmutationIntro />
       <Navigation />
 
       <main className="site-shell">

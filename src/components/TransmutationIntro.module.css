@@ -1,0 +1,191 @@
+.intro {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  outline: none;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.intro[open] {
+  display: grid;
+  place-items: center;
+  animation: reveal 650ms ease 2650ms both;
+}
+
+.intro::backdrop {
+  background: transparent;
+}
+
+.intro::before {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at center, color-mix(in srgb, var(--accent) 7%, transparent), transparent 65%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23888' filter='url(%23grain)' opacity='.07' d='M0 0h160v160H0z'/%3E%3C/svg%3E");
+  background-size: auto, 160px 160px;
+  content: '';
+  pointer-events: none;
+}
+
+.circle {
+  position: relative;
+  width: min(92vw, 80svh, 680px);
+  height: auto;
+  overflow: visible;
+}
+
+.intro[open] .circle {
+  animation: approach 3300ms cubic-bezier(0.2, 0.65, 0.3, 1) both;
+}
+
+.circle path,
+.circle circle {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.intro[open] .circle path,
+.intro[open] .circle circle {
+  animation: draw var(--duration, 700ms) var(--delay, 0ms) cubic-bezier(0.35, 0.05, 0.45, 1) both;
+}
+
+.outline {
+  --delay: 120ms;
+  --duration: 1250ms;
+  stroke-width: 2.8;
+}
+
+.outline path:last-child {
+  --delay: 170ms;
+}
+
+.innerRing {
+  --delay: 500ms;
+  --duration: 1100ms;
+  stroke-width: 1.25;
+  opacity: 0.6;
+}
+
+.geometry {
+  --delay: 850ms;
+  --duration: 1100ms;
+  stroke-width: 1.8;
+  opacity: 0.9;
+}
+
+.geometry path:last-child {
+  --delay: 1020ms;
+}
+
+.core {
+  --delay: 1280ms;
+  --duration: 750ms;
+  stroke-width: 1.25;
+  opacity: 0.65;
+}
+
+.core path {
+  --delay: 1480ms;
+  --duration: 600ms;
+}
+
+.inscriptions {
+  --delay: 1550ms;
+  --duration: 600ms;
+  stroke-width: 1.35;
+}
+
+.inscriptions .node {
+  --delay: 1250ms;
+  fill: var(--paper);
+}
+
+.center {
+  --delay: 1850ms;
+  --duration: 400ms;
+  stroke-width: 1.4;
+}
+
+.intro[open] .activate {
+  animation: activate 1000ms ease-in-out 2050ms both;
+}
+
+.halo {
+  position: absolute;
+  width: min(110vw, 95svh, 850px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  opacity: 0;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 16%, transparent), transparent 64%);
+  pointer-events: none;
+}
+
+.intro[open] .halo {
+  animation: bloom 1200ms ease-out 2000ms both;
+}
+
+.skip {
+  position: absolute;
+  right: max(1.25rem, env(safe-area-inset-right));
+  bottom: max(1.25rem, env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.skip:hover,
+.skip:focus-visible {
+  color: var(--ink);
+}
+
+.skip:focus-visible {
+  outline: 1px solid currentColor;
+}
+
+@keyframes draw {
+  from { stroke-dashoffset: 1; opacity: 0; }
+  3% { opacity: 1; }
+  to { stroke-dashoffset: 0; opacity: 1; }
+}
+
+@keyframes approach {
+  from { transform: scale(0.96) rotate(-7deg); }
+  to { transform: scale(1.02) rotate(-7deg); }
+}
+
+@keyframes activate {
+  0% { color: var(--ink); filter: drop-shadow(0 0 0 transparent); }
+  45%, 70% { color: var(--accent); filter: drop-shadow(0 0 5px var(--accent)); }
+  100% { color: var(--accent); filter: drop-shadow(0 0 2px var(--accent)); }
+}
+
+@keyframes bloom {
+  0% { opacity: 0; transform: scale(0.8); }
+  45% { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.15); }
+}
+
+@keyframes reveal {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro[open] {
+    display: none;
+  }
+}
