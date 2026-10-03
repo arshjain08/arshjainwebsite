@@ -66,7 +66,7 @@ export default function Home() {
         <section className="section-space grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <h2 className="display-type section-title">Things I’ve written</h2>
-            <p className="mt-6 max-w-sm leading-relaxed text-[var(--muted)]">Mostly technology, hackathons, and whatever else I can’t stop thinking about.</p>
+            <p className="mt-6 max-w-sm leading-relaxed text-[var(--muted)]">Whatever is on my mind. Whether that&apos;s life, some new technology, or anything else.</p>
           </div>
           <div className="lg:col-span-7 lg:col-start-6">
             {recentPosts.map((post) => (

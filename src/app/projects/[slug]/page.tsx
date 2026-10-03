@@ -76,8 +76,14 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           </figure>
         )}
 
-        <section className="section-space grid lg:grid-cols-12">
-          <article className="prose-index lg:col-span-7 lg:col-start-4">
+        <section className="section-space grid gap-12 lg:grid-cols-12">
+          <aside className="lg:col-span-3">
+            <p className="mb-5 text-sm font-medium">Built with</p>
+            <ul className="border-t rule">
+              {project.tech.map((technology) => <li key={technology} className="border-b rule py-2.5 text-sm">{technology}</li>)}
+            </ul>
+          </aside>
+          <article className="prose-index lg:col-span-7 lg:col-start-5">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>
           </article>
         </section>
