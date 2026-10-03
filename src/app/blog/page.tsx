@@ -16,7 +16,7 @@ export default function Blog() {
         <header className="section-space grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-8 lg:col-start-5">
             <h1 className="display-type page-title">Some things<br /><em className="text-[var(--accent)]">I’ve been thinking about.</em></h1>
-            <p className="page-lede mt-8 max-w-2xl text-[var(--muted)] sm:mt-10">Mostly technology, projects, and experiences I wanted to remember. Updated whenever I feel like writing :)</p>
+            <p className="page-lede mt-8 max-w-2xl text-[var(--muted)] sm:mt-10">Whatever is on my mind. Whether that&apos;s life, some new technology, or anything else.</p>
           </div>
         </header>
 
