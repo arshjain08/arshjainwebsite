@@ -1,18 +1,12 @@
-'use client';
-
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
-import { useState } from 'react';
 import Navigation from '@/components/Navigation';
 import SiteFooter from '@/components/SiteFooter';
 import blogData from '../../../data/blog.json';
 
 export default function Blog() {
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const categories = [{ id: 'all', name: 'All notes' }, ...blogData.categories];
   const posts = [...blogData.posts]
-    .filter((post) => selectedCategory === 'all' || post.category === selectedCategory)
     .sort((first, second) => new Date(second.date).getTime() - new Date(first.date).getTime());
 
   return (
@@ -26,22 +20,12 @@ export default function Blog() {
           </div>
         </header>
 
-        <div className="flex flex-wrap gap-x-6 gap-y-3 border-y rule py-4">
-          {categories.map((category) => (
-            <button key={category.id} onClick={() => setSelectedCategory(category.id)} className={`index-label border-b pb-1 ${selectedCategory === category.id ? 'border-[var(--accent)] text-[var(--accent)]' : 'border-transparent hover:text-[var(--ink)]'}`}>
-              {category.name}
-            </button>
-          ))}
-        </div>
-
-        <section className="py-10 sm:py-16">
+        <section className="border-t rule py-10 sm:py-16">
           {posts.map((post) => {
-            const category = blogData.categories.find((item) => item.id === post.category);
             return (
               <Link key={post.id} href={`/blog/${post.id}`} className="archive-row group grid gap-5 py-7 md:grid-cols-12 md:items-center">
                 <div className="md:col-span-6">
                   <h2 className="display-type text-3xl leading-[1.02] sm:text-4xl">{post.title}</h2>
-                  <p className="index-label mt-3">{category?.name} / {post.readTime}</p>
                 </div>
                 <p className="text-sm leading-relaxed text-[var(--muted)] md:col-span-3">{post.excerpt}</p>
                 <div className="overflow-hidden bg-[var(--paper-deep)] md:col-span-2">

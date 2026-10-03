@@ -21,7 +21,6 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const post = blogData.posts.find((item) => item.id === slug);
   if (!post) notFound();
-  const category = blogData.categories.find((item) => item.id === post.category);
   const markdownPath = path.join(process.cwd(), 'content', 'blog', `${slug}.md`);
   const articleContent = fs.existsSync(markdownPath)
     ? matter(fs.readFileSync(markdownPath, 'utf8')).content.trim()
@@ -37,7 +36,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
 
         <header className="grid gap-8 border-t rule py-10 sm:py-14 lg:grid-cols-12 lg:py-20">
           <div className="lg:col-span-3">
-            <p className="text-sm leading-relaxed text-[var(--muted)]">{category?.name}<br />{post.date}<br />{post.readTime}</p>
+            <p className="text-sm leading-relaxed text-[var(--muted)]">{post.date}</p>
           </div>
           <div className="lg:col-span-9">
             <h1 className="display-type detail-title max-w-5xl">{post.title}</h1>
@@ -53,14 +52,8 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
           </figure>
         )}
 
-        <section className="section-space grid gap-12 lg:grid-cols-12">
-          <aside className="lg:col-span-3">
-            <p className="text-sm font-medium mb-5">Topics</p>
-            <div className="flex flex-wrap gap-2">
-              {post.tags.map((tag) => <span key={tag} className="border rule px-2 py-1 font-mono text-[10px] uppercase tracking-wider">{tag}</span>)}
-            </div>
-          </aside>
-          <article className="prose-index lg:col-span-7 lg:col-start-5">
+        <section className="section-space grid lg:grid-cols-12">
+          <article className="prose-index lg:col-span-7 lg:col-start-4">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{cleanEmbeddedContent(articleContent)}</ReactMarkdown>
           </article>
         </section>
