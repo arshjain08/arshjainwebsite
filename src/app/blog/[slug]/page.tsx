@@ -1,3 +1,6 @@
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -19,6 +22,10 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   const post = blogData.posts.find((item) => item.id === slug);
   if (!post) notFound();
   const category = blogData.categories.find((item) => item.id === post.category);
+  const markdownPath = path.join(process.cwd(), 'content', 'blog', `${slug}.md`);
+  const articleContent = fs.existsSync(markdownPath)
+    ? matter(fs.readFileSync(markdownPath, 'utf8')).content.trim()
+    : post.content;
 
   return (
     <div className="min-h-screen">
@@ -54,7 +61,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
             </div>
           </aside>
           <article className="prose-index lg:col-span-7 lg:col-start-5">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{cleanEmbeddedContent(post.content)}</ReactMarkdown>
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{cleanEmbeddedContent(articleContent)}</ReactMarkdown>
           </article>
         </section>
 

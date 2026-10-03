@@ -1,6 +1,18 @@
 {
   "posts": [
     {
+      "id": "you-cant-have-it-all",
+      "title": "You Can’t Have It All",
+      "excerpt": "I “dropped out” of college to work at an AI lab. This is the story of what I gave up, what I gained, and why the trade was worth it.",
+      "content": "",
+      "date": "2026-09-30",
+      "category": "personal",
+      "tags": ["Career", "College", "xAI", "Rice", "Reflection"],
+      "readTime": "7 min read",
+      "featured": true,
+      "image": "/images/blog/you-cant-have-it-all.jpg"
+    },
+    {
       "id": "langchain-ambient-agents",
       "title": "Langchain and Ambient Agents",
       "excerpt": "Exploring LangChain's newest framework around ambient agents - AI that sits in the background, ready to act when something happens.",
